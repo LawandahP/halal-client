@@ -9,12 +9,17 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/webpack-config": "^18.0.1",
     "@types/react-native": "^0.71.3",
     "@types/styled-components-react-native": "^5.2.1",
     "expo": "~48.0.5",
+    "expo-constants": "^14.2.1",
     "expo-status-bar": "~1.4.4",
+    "formik": "^2.2.9",
     "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-native": "0.71.3",
+    "react-native-web": "~0.18.10",
     "styled-components": "^5.3.8"
   },
   "devDependencies": {
