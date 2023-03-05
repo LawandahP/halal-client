@@ -13,6 +13,10 @@ const Login = () => {
         email: "",
         password: ""
     }
+
+    const handleSubmit = () => {
+
+    }
   return (
     <Container>
         <StatusBar style="dark" />
@@ -26,10 +30,10 @@ const Login = () => {
                 onSubmit={(values) => {
                     console.log(values)
                 }}>
-                    {({handleChange, handleBlur, handleSubmit, values}) => 
+                    {({handleChange, handleBlur, values}) => 
                         <FormArea>
                             <TextInput 
-                                label="email" 
+                                label="Email" 
                                 icon="mail"
                                 placeholder="johndoe@gmail.com"
                                 placeHolderTextColor={Colors.darkLight}
