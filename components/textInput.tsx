@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Colors, IconButton, InputIcon, InputLabel, StyledTextInput } from './styles';
 
 import { Octicons, Ionicons } from '@expo/vector-icons'
@@ -12,6 +12,8 @@ interface Input {
     isPassword?: boolean;
     hidePassword?: boolean;
     setHidePassword?: any;
+    isDate?: boolean;
+    showDatePicker?: () => void;
 }
 
 
@@ -27,7 +29,13 @@ const TextInput = (props:Input) => {
         <Octicons name={props.icon} size={30} color={Colors.brand}/>
       </InputIcon>
       <InputLabel>{props.label}</InputLabel>
-      <StyledTextInput {...props}/>
+      {!props.isDate && <StyledTextInput {...props}/>}
+      {
+        props.isDate && 
+        <TouchableOpacity onPress={props.showDatePicker}>
+          <StyledTextInput {...props}/>
+        </TouchableOpacity>
+      }
       { props.isPassword && (
         <IconButton onPress={handleShowPassword}>
           <Ionicons size={30} 

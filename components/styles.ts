@@ -20,7 +20,7 @@ const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
 export const Container = styled.View`
     flex: 1;
     padding: 25px;
-    padding-top: ${StatusBarHeight + 10}px;
+    padding-top: ${StatusBarHeight + 30}px;
     background-color: ${primary};
 `
 
@@ -35,19 +35,28 @@ export const PageLogo = styled.Image`
     height: 250px;
 `
 
-export const PageTitle = styled.Text`
+export const PageTitle = styled.Text<{welcome?: boolean}>`
     font-size: 30px;
     text-align: center;
     font-weight: bold;
     color: ${brand};
     padding: 10px;
+
+    ${(props) => props.welcome && `
+        margin-bottom: 35px;
+    `}
 `
-export const SubTitle = styled.Text`
+export const SubTitle = styled.Text<{welcome?: boolean}>`
     font-size: 18px;
     margin-bottom: 20px;
     letter-spacing: 1px;
     font-weight: bold;
     color: ${tertiary};
+
+    ${(props) => props.welcome && `
+        margin-bottom: 5px;
+        font-weight: normal;
+    `}
 `
 
 
@@ -150,4 +159,28 @@ export const TextLink = styled.TouchableOpacity`
 export const TextLinkContent = styled.Text`
     color: ${brand};
     font-size: 15px;
+`
+
+
+// Welcome Screen
+
+export const WelcomeContainer = styled(InnerContainer)`
+    padding: 25px;
+    padding-top: 10px;
+    justify-content: center;
+`
+export const Avatar = styled.Image`
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    border-radius: 50px;
+    border-width: 2px;
+    border-color: ${secondary};
+    margin-bottom: 10px;
+    margin-top: 10px;
+`
+
+export const WelcomeImage = styled.Image`
+    height: 50%;
+    width: 120%;
 `

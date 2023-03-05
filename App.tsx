@@ -1,9 +1,9 @@
 
-import Login from './screens/login';
+import RootStack from './navigators/rootStack';
 
 export default function App() {
   return (
-    <Login />
+    <RootStack />
   );
 }
 

@@ -5,8 +5,15 @@ import TextInput from '../components/textInput'
 
 import { Fontisto } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
+// import KeyBoardWrapper from '../components/keyboardWrapper'
 
-const Login = () => {
+
+interface LoginProps {
+    navigation?: any
+}
+
+
+const Login = (props: LoginProps) => {
 
     const [ hidePassword, setHidePassword] = useState(true)
     const initialVals: any = {
@@ -18,72 +25,76 @@ const Login = () => {
 
     }
   return (
-    <Container>
-        <StatusBar style="dark" />
-        <InnerContainer>
-            {/* <PageLogo resizeMode="cover" source={require('./../assets/images/image1.jpg')} /> */}
-            <PageTitle>Halal</PageTitle>
-            <SubTitle>Login</SubTitle>
 
-            <Formik
-                initialValues={initialVals}
-                onSubmit={(values) => {
-                    console.log(values)
-                }}>
-                    {({handleChange, handleBlur, values}) => 
-                        <FormArea>
-                            <TextInput 
-                                label="Email" 
-                                icon="mail"
-                                placeholder="johndoe@gmail.com"
-                                placeHolderTextColor={Colors.darkLight}
-                                onChangeText={handleChange('email')}
-                                onBlur={handleBlur('email')}
-                                value={values.email}
-                                keyboardType='email-address'
-                            />
+    // <KeyBoardWrapper>
+        <Container>
+            <StatusBar style="dark" />
+            <InnerContainer>
+                {/* <PageLogo resizeMode="cover" source={require('./../assets/images/image1.jpg')} /> */}
+                <PageTitle>Halal</PageTitle>
+                <SubTitle>Login</SubTitle>
 
-                            <TextInput 
-                                label="Password" 
-                                icon="lock"
-                                isPassword={true}
-                                placeholder="Enter password"
-                                placeHolderTextColor={Colors.darkLight}
-                                onChangeText={handleChange('password')}
-                                onBlur={handleBlur('password')}
-                                value={values.password}
-                                setHidePassword={setHidePassword}
-                                secureTextEntry={hidePassword}
-                                hidePassword={hidePassword}
-                            />
+                <Formik
+                    initialValues={initialVals}
+                    onSubmit={(values) => {
+                        console.log(values)
+                        props.navigation.navigate("Welcome")
+                    }}>
+                        {({handleChange, handleBlur, values}) => 
+                            <FormArea>
+                                <TextInput 
+                                    label="Email" 
+                                    icon="mail"
+                                    placeholder="johndoe@gmail.com"
+                                    placeHolderTextColor={Colors.darkLight}
+                                    onChangeText={handleChange('email')}
+                                    onBlur={handleBlur('email')}
+                                    value={values.email}
+                                    keyboardType='email-address'
+                                />
 
-                            <MsgBox>...</MsgBox>
-                            <StyledButton onPress={handleSubmit}>
-                                <BtnText>Submit</BtnText>
-                            </StyledButton>
+                                <TextInput 
+                                    label="Password" 
+                                    icon="lock"
+                                    isPassword={true}
+                                    placeholder="Enter password"
+                                    placeHolderTextColor={Colors.darkLight}
+                                    onChangeText={handleChange('password')}
+                                    onBlur={handleBlur('password')}
+                                    value={values.password}
+                                    setHidePassword={setHidePassword}
+                                    secureTextEntry={hidePassword}
+                                    hidePassword={hidePassword}
+                                />
 
-                            <Line />
+                                <MsgBox>...</MsgBox>
+                                <StyledButton onPress={handleSubmit}>
+                                    <BtnText>Submit</BtnText>
+                                </StyledButton>
 
-                            <StyledButton google onPress={handleSubmit}>
-                                <Fontisto name="google" color={Colors.primary} size={25}/>
-                                <BtnText google>Sign in with Google</BtnText>
-                            </StyledButton>
+                                <Line />
 
-                            <ExtraView>
-                                <ExtraText>Don't have an account?</ExtraText>
-                                <TextLink>
-                                    <TextLinkContent> Sign Up</TextLinkContent>
-                                </TextLink>
-                            </ExtraView>
+                                <StyledButton google onPress={handleSubmit}>
+                                    <Fontisto name="google" color={Colors.primary} size={25}/>
+                                    <BtnText google>Sign in with Google</BtnText>
+                                </StyledButton>
 
-                        </FormArea>
-                    }
-            </Formik>
-            <FormArea>
+                                <ExtraView>
+                                    <ExtraText>Don't have an account?</ExtraText>
+                                    <TextLink onPress={() => props.navigation.navigate("SignUp")}>
+                                        <TextLinkContent> Sign Up</TextLinkContent>
+                                    </TextLink>
+                                </ExtraView>
 
-            </FormArea>
-        </InnerContainer>
-    </Container>
+                            </FormArea>
+                        }
+                </Formik>
+                <FormArea>
+
+                </FormArea>
+            </InnerContainer>
+        </Container>
+    // {/* </KeyBoardWrapper> */}
   )
 }
 
