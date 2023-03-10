@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { StyleSheet, Switch, View, TouchableOpacity } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { StyleSheet, Switch, View } from 'react-native'
 import { Colors } from '../components/styles';
 import MainContainer from '../components/mainContainer';
 import StyledText from '../components/settings/styledText';
 import SettingsItem from '../components/settings/settingsItem';
 import SettingsButton from '../components/settings/settingsButton';
+import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 
 
 interface SectionProps {
@@ -26,12 +27,13 @@ const SettingsSection = (props: SectionProps) => {
 }
 const Settings = () => {
 
-    const [ isActive, setActive ] = useState(false)
-    
-    const theme = {mode: "dark"}
+    const { theme, updateTheme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
+    const [ isActive, setActive ] = useState(theme.mode === "light")
+
     const toggleSwitch = () => {
+        updateTheme(null);
         setActive((previousState) => !previousState);
     }
 
@@ -69,9 +71,9 @@ const Settings = () => {
                 <SettingsItem label='Dark Mode'>
                     <StyledText>
                         <Switch 
-                            value={isActive}
+                            value={isActive && !theme.system}
                             onValueChange={toggleSwitch}
-                            thumbColor={isActive ? activeColors.brand : activeColors.light }
+                            thumbColor={theme.mode === "dark" ? activeColors.brand : activeColors.light }
                             ios_backgroundColor={activeColors.primary}
                             trackColor={{
                                 false: activeColors.darkLight,
@@ -90,18 +92,21 @@ const Settings = () => {
         </StyledText>
         <SettingsSection>
             <SettingsButton 
+                onPress={() => updateTheme({mode: "light", system: false})}
                 label="Light"
-                isActive={true}
+                isActive={theme.mode === "light" && !theme.system}
                 icon="lightbulb-on" 
             />
-            <SettingsButton 
+            <SettingsButton
+                onPress={() => updateTheme({mode: "dark", system: false})} 
                 label="Dark"
-                isActive={true}
+                isActive={theme.mode === "dark" && !theme.system}
                 icon="weather-night" 
             />
             <SettingsButton 
+                onPress={() => updateTheme({mode: "", system: true})}
                 label="System"
-                isActive={true}
+                isActive={theme.system}
                 icon="theme-light-dark" 
             />
         </SettingsSection>

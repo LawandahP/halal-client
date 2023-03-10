@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Colors
 } from '../components/styles'
 
 
 // import { StatusBar } from 'expo-status-bar'
-import { View, TouchableOpacity , Text, ImageBackground, TextInput, StyleSheet, SafeAreaView } from 'react-native'
+import { View, TouchableOpacity , Text, ImageBackground, TextInput, StyleSheet } from 'react-native'
 import { Octicons } from '@expo/vector-icons';
 import MainContainer from '../components/mainContainer';
+import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 
 interface HomeProps {
     navigation?: any
 }
 
 const Welcome = (props: HomeProps) => {
-    const theme = {mode: "dark"}
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
    
     return (

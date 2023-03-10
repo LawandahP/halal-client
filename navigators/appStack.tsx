@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -11,6 +11,7 @@ import CustomDrawer from '../components/customDrawer';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import Settings from '../screens/settings';
 import BottomNavigator from './tabNavigator';
+import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 
 
 type RootStackParamList = {
@@ -25,7 +26,7 @@ const Drawer = createDrawerNavigator<RootStackParamList>();
 
 const AppStack = () => {
 
-    const theme = {mode: "dark"}
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
     return (
@@ -37,7 +38,7 @@ const AppStack = () => {
                 }
                 screenOptions={{
                     headerStyle: {
-                        backgroundColor: activeColors.brand,
+                        backgroundColor: activeColors.primary,
                     },
                     headerTintColor: activeColors.light,
                     drawerActiveBackgroundColor: activeColors.brand,

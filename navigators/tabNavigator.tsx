@@ -1,17 +1,21 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 
-import React from 'react'
+import React, { useContext } from 'react'
 import Settings from '../screens/settings';
 import Welcome from '../screens/welcome';
 import { Colors } from "../components/styles";
 
 import { Ionicons } from '@expo/vector-icons'
+import { ThemeContext, ThemeContextValue } from "../contexts/themeContext";
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavigator = () => {
-    let activeColors = Colors;
+
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
+    let activeColors = Colors[theme.mode];
+
     return (
     
     // <NavigationContainer>
@@ -30,10 +34,10 @@ const BottomNavigator = () => {
                 // You can return any component that you like here!
                 return <Ionicons name={iconName} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: activeColors.primary,
-                tabBarInactiveTintColor: activeColors.darkLight,
+                tabBarActiveTintColor: activeColors.brand,
+                tabBarInactiveTintColor: activeColors.light,
                 tabBarStyle: {
-                    backgroundColor: activeColors.brand
+                    backgroundColor: activeColors.primary
                 },
                 tabBarShowLabel: false,
                 // headerTitleAlign: "left",

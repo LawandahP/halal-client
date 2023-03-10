@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { Colors } from './styles'
 
 
 import OpacityButton from './opacityButton';
+import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 
 interface DrawerProps {
 
@@ -12,7 +13,7 @@ interface DrawerProps {
 
 const CustomDrawer = (props: DrawerProps) => {
 
-    const theme = {mode: "dark"}
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
 
@@ -36,7 +37,7 @@ const CustomDrawer = (props: DrawerProps) => {
                     </Text>
 
                     <Text style={{color: activeColors.brand}}>
-                            Client
+                        Client
                     </Text>
                 </ImageBackground>
 

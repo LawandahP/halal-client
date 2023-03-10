@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { SafeAreaView , ScrollView, StyleSheet } from 'react-native'
 import { Colors } from './styles';
 import { StatusBar } from 'expo-status-bar';
+
+import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 
 
 interface MainProps {
@@ -11,7 +13,7 @@ interface MainProps {
 
 const MainContainer = (props: MainProps) => {
 
-    const theme = {mode: "dark"}
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
     return (
@@ -24,8 +26,8 @@ const MainContainer = (props: MainProps) => {
             >
                 {props.children}
                 <StatusBar 
-                    style='light' 
-                    backgroundColor={activeColors.brand} />
+                    style={theme.mode == "dark" ? "light" : "dark"} 
+                    backgroundColor={activeColors.primary} />
             </ScrollView>
         </SafeAreaView>
   )

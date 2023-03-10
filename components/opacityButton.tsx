@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import { Colors } from './styles'
 
 import { Ionicons } from '@expo/vector-icons';
+import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 
 
 
@@ -15,7 +16,7 @@ interface Props {
 
 const OpacityButton = (props:Props) => {
 
-    const theme = {mode: "dark"}
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
     return (

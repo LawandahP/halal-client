@@ -1,5 +1,18 @@
 import { createContext } from "react";
 
+export type Theme = {
+    mode: any;
+    system: boolean;
+};
 
-
-export const ThemeContext = createContext()
+export type ThemeContextValue = {
+    theme: Theme;
+    updateTheme: (newTheme: Theme | null) => void;
+    // updateTheme: () => void;
+  };
+  
+export const ThemeContext = createContext<ThemeContextValue>({
+    theme: { mode: "dark", system: false },
+    updateTheme: () => {},
+  });
+  

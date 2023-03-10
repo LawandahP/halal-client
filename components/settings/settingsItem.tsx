@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Colors } from '../styles';
 import { StyleSheet, View } from 'react-native';
 import StyledText from './styledText';
+import { ThemeContext, ThemeContextValue } from '../../contexts/themeContext';
 
 
 
@@ -13,7 +14,7 @@ interface TextProps {
 
 const SettingsItem = (props:TextProps) => {
 
-    const theme = {mode: "dark"}
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
     return (
@@ -26,7 +27,7 @@ const SettingsItem = (props:TextProps) => {
         >
             <StyledText
                 styles={[{
-                    color: activeColors.darkLight
+                    color: activeColors.light
                 }]}>
                 {props.label}
             </StyledText>

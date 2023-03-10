@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Colors } from '../styles';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import StyledText from './styledText';
 
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { ThemeContext, ThemeContextValue } from '../../contexts/themeContext';
 
 
 
@@ -13,11 +14,12 @@ interface TextProps {
     label: string;
     icon: any;
     isActive: boolean;
+    onPress: () => void;
 }
 
 const SettingsButton = (props:TextProps) => {
 
-    const theme = {mode: "dark"}
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
     return (
@@ -26,28 +28,33 @@ const SettingsButton = (props:TextProps) => {
                 {backgroundColor: activeColors.secondary},
                 styles.settingsItem
             ]}
-            {...props}
+            onPress={props.onPress}
+
         >
             <View style={styles.labelGroup}>
                 <MaterialCommunityIcons 
                     style={styles.icon}
                     name={props.icon} size={24} 
-                    color={activeColors.darkLight} 
+                    color={activeColors.light} 
                 />
                     <StyledText
                         styles={[{
-                            color: activeColors.darkLight
+                            color: activeColors.light
                         }]}>
                         {props.label}
                     </StyledText>
             </View>
 
             <MaterialCommunityIcons 
-                    style={styles.icon}
-                    name={props.isActive ? "checkbox-marked-circle" : "checkbox-blank"} size={24} 
-                    color={props.isActive ? activeColors.brand : activeColors.tertiary} 
+                style={styles.icon}
+                name={
+                        props.isActive 
+                        ? "checkbox-marked-circle-outline" 
+                        : "checkbox-blank-circle-outline"
+                    } 
+                size={24} 
+                color={props.isActive ? activeColors.brand : activeColors.darkLight} 
             />
-
         </TouchableOpacity>
     )
 }
