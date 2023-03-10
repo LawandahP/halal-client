@@ -13,6 +13,7 @@ interface Input {
     hidePassword?: boolean;
     setHidePassword?: any;
     isDate?: boolean;
+    isSearch?: boolean;
     showDatePicker?: () => void;
 }
 
@@ -26,7 +27,7 @@ const TextInput = (props:Input) => {
   return (
     <View>
       <InputIcon>
-        <Octicons name={props.icon} size={30} color={Colors.brand}/>
+        <Octicons name={props.icon} size={props.isSearch ? 20 : 30} color={Colors.brand}/>
       </InputIcon>
       <InputLabel>{props.label}</InputLabel>
       {!props.isDate && <StyledTextInput {...props}/>}

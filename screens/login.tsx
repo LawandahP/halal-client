@@ -9,11 +9,13 @@ import { StatusBar } from 'expo-status-bar'
 
 
 interface LoginProps {
-    navigation?: any
+    navigation: () => void;
 }
 
 
 const Login = (props: LoginProps) => {
+
+    let activeColors = Colors;
 
     const [ hidePassword, setHidePassword] = useState(true)
     const initialVals: any = {
@@ -46,7 +48,7 @@ const Login = (props: LoginProps) => {
                                     label="Email" 
                                     icon="mail"
                                     placeholder="johndoe@gmail.com"
-                                    placeHolderTextColor={Colors.darkLight}
+                                    placeHolderTextColor={activeColors.darkLight}
                                     onChangeText={handleChange('email')}
                                     onBlur={handleBlur('email')}
                                     value={values.email}
@@ -58,7 +60,7 @@ const Login = (props: LoginProps) => {
                                     icon="lock"
                                     isPassword={true}
                                     placeholder="Enter password"
-                                    placeHolderTextColor={Colors.darkLight}
+                                    placeHolderTextColor={activeColors.darkLight}
                                     onChangeText={handleChange('password')}
                                     onBlur={handleBlur('password')}
                                     value={values.password}
@@ -75,7 +77,7 @@ const Login = (props: LoginProps) => {
                                 <Line />
 
                                 <StyledButton google onPress={handleSubmit}>
-                                    <Fontisto name="google" color={Colors.primary} size={25}/>
+                                    <Fontisto name="google" color={activeColors.primary} size={25}/>
                                     <BtnText google>Sign in with Google</BtnText>
                                 </StyledButton>
 

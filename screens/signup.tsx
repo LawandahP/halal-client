@@ -14,7 +14,7 @@ interface SignUpProps {
 }
 
 const SignUp = (props: SignUpProps) => {
-
+    let activeColors = Colors
     const [ hidePassword, setHidePassword] = useState(true)
 
     const [date, setDate] = useState(new Date(2001, 3, 6));
@@ -83,12 +83,11 @@ const SignUp = (props: SignUpProps) => {
                 }}>
                     {({handleChange, handleBlur, values}) => 
                         <FormArea>
-                            <TextInput 
-                                autoCapitalize 
+                            <TextInput  
                                 label="Full Name" 
                                 icon="person"
                                 placeholder="John Doe"
-                                placeHolderTextColor={Colors.darkLight}
+                                placeHolderTextColor={activeColors.darkLight}
                                 onChangeText={handleChange('fullNAme')}
                                 onBlur={handleBlur('fullName')}
                                 value={values.fullName}
@@ -98,7 +97,7 @@ const SignUp = (props: SignUpProps) => {
                                 label="Email Address" 
                                 icon="mail"
                                 placeholder="johndoe@gmail.com"
-                                placeHolderTextColor={Colors.darkLight}
+                                placeHolderTextColor={activeColors.darkLight}
                                 onChangeText={handleChange('email')}
                                 onBlur={handleBlur('email')}
                                 value={values.email}
@@ -109,7 +108,7 @@ const SignUp = (props: SignUpProps) => {
                                 label="Phone Number" 
                                 icon="device-mobile"
                                 placeholder="05 890 939 238"
-                                placeHolderTextColor={Colors.darkLight}
+                                placeHolderTextColor={activeColors.darkLight}
                                 onChangeText={handleChange('phoneNumber')}
                                 onBlur={handleBlur('phoneNumber')}
                                 value={values.phoneNumber}
@@ -120,7 +119,7 @@ const SignUp = (props: SignUpProps) => {
                                 label="Date of Birth" 
                                 icon="calendar"
                                 placeholder="YYYY - MM - DD"
-                                placeHolderTextColor={Colors.darkLight}
+                                placeHolderTextColor={activeColors.darkLight}
                                 onChangeText={handleChange('dateOfBirth')}
                                 onBlur={handleBlur('dateOfBirth')}
                                 value={dob ? dob.toDateString() : ''}
@@ -134,7 +133,7 @@ const SignUp = (props: SignUpProps) => {
                                 icon="lock"
                                 isPassword={true}
                                 placeholder="Enter password"
-                                placeHolderTextColor={Colors.darkLight}
+                                placeHolderTextColor={activeColors.darkLight}
                                 onChangeText={handleChange('password')}
                                 onBlur={handleBlur('password')}
                                 value={values.password}
@@ -148,7 +147,7 @@ const SignUp = (props: SignUpProps) => {
                                 icon="key"
                                 isPassword={true}
                                 placeholder="Confirm password"
-                                placeHolderTextColor={Colors.darkLight}
+                                placeHolderTextColor={activeColors.darkLight}
                                 onChangeText={handleChange('confirmPassword')}
                                 onBlur={handleBlur('confirmPassword')}
                                 value={values.confirmPassword}

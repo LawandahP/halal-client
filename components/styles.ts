@@ -4,14 +4,30 @@ import Constants from 'expo-constants'
 
 const StatusBarHeight = Constants.statusBarHeight;
 
-export const Colors = {
+export const Colors: any = {
+
+    light: {
+        primary: "#ffff",
+        secondary: "#E5E7EB",
+        tertiary: "#1f2937",
+        darkLight: "#9ca3af",
+        brand: "#0081e9",
+        light: "#333"
+    },
+
+    dark: {
+        primary: "#1f2937",
+        secondary: "#111827",
+        tertiary: "#1f2937",
+        darkLight: "#9ca3af",
+        brand: "#0081e9",
+        light: "#ffff"
+    },
     primary: "#ffff",
     secondary: "#E5E7EB",
     tertiary: "#1f2937",
     darkLight: "#9ca3af",
-    brand: "#6d28d9",
-    green: "#10b981",
-    red: "#ef4444",
+    brand: "#0081e9",
 };
 
 const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
@@ -164,11 +180,11 @@ export const TextLinkContent = styled.Text`
 
 // Welcome Screen
 
-export const WelcomeContainer = styled(InnerContainer)`
-    padding: 25px;
-    padding-top: 10px;
-    justify-content: center;
+export const WelcomeContainer = styled.SafeAreaView`
+    flex: 1;
+    margin-top: 20;
 `
+
 export const Avatar = styled.Image`
     width: 100px;
     height: 100px;
