@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import { Colors
 } from '../components/styles'
 
@@ -8,19 +8,24 @@ import { View, TouchableOpacity , Text, ImageBackground, TextInput, StyleSheet }
 import { Octicons } from '@expo/vector-icons';
 import MainContainer from '../components/mainContainer';
 import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
+import { useTranslations } from '../contexts/localizationContext';
 
 interface HomeProps {
     navigation?: any
 }
 
 const Welcome = (props: HomeProps) => {
+    const { t } = useTranslations();
+
     const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
+
+   
    
     return (
         <MainContainer styles={{padding: 20, paddingTop: 40}}>
             <View style={styles.welcome}>
-                <Text style={{fontSize: 16, marginTop: 5, color: activeColors.light}}>Hello Githaiga</Text>
+                <Text style={{fontSize: 16, marginTop: 5, color: activeColors.light}}>{t('hello')} Githaiga</Text>
                 <TouchableOpacity onPress={() => props.navigation.openDrawer()}>
                     <ImageBackground 
                         source={require('../assets/images/image1.jpg')}
@@ -39,7 +44,7 @@ const Welcome = (props: HomeProps) => {
                     color={activeColors.brand} 
                 />
                 <TextInput 
-                    placeholder='search' 
+                    placeholder={t('search')}
                     placeholderTextColor={activeColors.darkLight}
                     style={{fontSize: 16, color: activeColors.light}} 
                 />

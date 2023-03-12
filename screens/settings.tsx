@@ -1,11 +1,16 @@
-import React, { useContext, useState } from 'react'
-import { StyleSheet, Switch, View } from 'react-native'
+import React, { useContext, useLayoutEffect, useState } from 'react'
+import { Alert, I18nManager, StyleSheet, View } from 'react-native'
 import { Colors } from '../components/styles';
 import MainContainer from '../components/mainContainer';
 import StyledText from '../components/settings/styledText';
 import SettingsItem from '../components/settings/settingsItem';
 import SettingsButton from '../components/settings/settingsButton';
 import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
+
+import { useTranslations } from '../contexts/localizationContext';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
+import { storedData } from '../config/asyncStorage';
 
 
 interface SectionProps {
@@ -25,17 +30,40 @@ const SettingsSection = (props: SectionProps) => {
         </View>
     )
 }
-const Settings = () => {
+
+interface SettingProps {
+    navigation: any
+}
+
+// Enable RTL support
+I18nManager.forceRTL(true);
+
+const Settings = (props: SettingProps) => {
+    const { t, selectedLanguage, changeLanguage } = useTranslations();
+    // const { t } = useTranslation();
+    // const [locale, setLocale] = useState('en');
+
+    // const changeLanguage = (lang: string) => {
+    //     const newLocale = lang
+    //     i18n.changeLanguage(newLocale);
+    //     I18nManager.forceRTL(newLocale === 'ar');
+    //     setLocale(newLocale);
+    //     storedData("locale", newLocale)
+    // };
+
+    const LANGUAGES = [
+        { code: "en", label: "English"},
+        { code: "ar", label: "عربي"}
+    ]
 
     const { theme, updateTheme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
-    const [ isActive, setActive ] = useState(theme.mode === "light")
-
-    const toggleSwitch = () => {
-        updateTheme(null);
-        setActive((previousState) => !previousState);
-    }
+    useLayoutEffect(() => {
+        props.navigation.setOptions({
+            title: t('settings')
+        })
+    })
 
   return (
     <MainContainer styles={styles.container}>
@@ -44,16 +72,16 @@ const Settings = () => {
             small
             bold
         >
-            User
+            {t('user')}
         </StyledText>
         <SettingsSection>
-            <SettingsItem label='Name'>
+            <SettingsItem label={t('name')}>
                 <StyledText>
                     Githaiga Kairuthi
                 </StyledText>
             </SettingsItem>
 
-            <SettingsItem label='Date Joined'>
+            <SettingsItem label={t('date_joined')}>
                 <StyledText>
                     Jan Thur 19 2021
                 </StyledText>
@@ -61,6 +89,74 @@ const Settings = () => {
         </SettingsSection>
 
         <StyledText
+            styles={{color: activeColors.brand}}
+            small
+            bold
+        >
+            {t('theme_settings')}
+        </StyledText>
+        <SettingsSection>
+            <SettingsButton 
+                onPress={() => updateTheme({mode: "light", system: false})}
+                label={t('light')}
+                isActive={theme.mode === "light" && !theme.system}
+                icon="lightbulb-on" 
+            />
+            <SettingsButton
+                onPress={() => updateTheme({mode: "dark", system: false})} 
+                label={t('dark')}
+                isActive={theme.mode === "dark" && !theme.system}
+                icon="weather-night" 
+            />
+            <SettingsButton 
+                onPress={() => updateTheme({mode: "", system: true})}
+                label={t('system')}
+                isActive={theme.system}
+                icon="theme-light-dark" 
+            />
+
+        </SettingsSection>
+        
+        <StyledText
+            styles={{color: activeColors.brand}}
+            small
+            bold
+        >
+            {t('language_settings')}
+        </StyledText>
+        <SettingsSection>
+            {LANGUAGES.map((language) => {
+                const activeLanguage = selectedLanguage === language.code
+                return (
+                    <SettingsButton 
+                        key={language.code}
+                        onPress={() => changeLanguage(language.code)}
+                        label={`${language.label}`}
+                        isActive={activeLanguage}
+                    />
+            )})}
+            
+            
+            
+        </SettingsSection>
+
+    </MainContainer>
+  )
+}
+
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 25,
+    },
+})
+export default Settings
+
+
+
+
+
+        {/* <StyledText
             styles={{color: activeColors.brand}}
             small
             bold
@@ -81,44 +177,4 @@ const Settings = () => {
                             }}/>
                     </StyledText>
                 </SettingsItem>
-            </SettingsSection>
-
-        <StyledText
-            styles={{color: activeColors.brand}}
-            small
-            bold
-        >
-            Theme Settings
-        </StyledText>
-        <SettingsSection>
-            <SettingsButton 
-                onPress={() => updateTheme({mode: "light", system: false})}
-                label="Light"
-                isActive={theme.mode === "light" && !theme.system}
-                icon="lightbulb-on" 
-            />
-            <SettingsButton
-                onPress={() => updateTheme({mode: "dark", system: false})} 
-                label="Dark"
-                isActive={theme.mode === "dark" && !theme.system}
-                icon="weather-night" 
-            />
-            <SettingsButton 
-                onPress={() => updateTheme({mode: "", system: true})}
-                label="System"
-                isActive={theme.system}
-                icon="theme-light-dark" 
-            />
-        </SettingsSection>
-
-    </MainContainer>
-  )
-}
-
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 25,
-    },
-})
-export default Settings
+            </SettingsSection> */}

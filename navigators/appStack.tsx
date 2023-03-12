@@ -12,19 +12,22 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import Settings from '../screens/settings';
 import BottomNavigator from './tabNavigator';
 import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
+import { useTranslations } from '../contexts/localizationContext';
 
 
-type RootStackParamList = {
-  Home: undefined;
-  History: undefined;
-  Book: undefined;
-  Settings: undefined;
-};
+// type RootStackParamList = {
+//   Home: undefined;
+//   History: undefined;
+//   Book: undefined;
+//   Settings: undefined;
+// };
 
 
-const Drawer = createDrawerNavigator<RootStackParamList>();
+const Drawer = createDrawerNavigator();
 
 const AppStack = () => {
+
+    const { t } = useTranslations();
 
     const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
@@ -51,7 +54,7 @@ const AppStack = () => {
                 }}
             >
                 
-                <Drawer.Screen name="Home" 
+                <Drawer.Screen name={t('home')} 
                     component={BottomNavigator}   
                     options={{ 
                         drawerIcon: () => (
@@ -61,7 +64,7 @@ const AppStack = () => {
                         headerShown: false 
                     }} 
                 />
-                <Drawer.Screen name="History" 
+                <Drawer.Screen name={t('history')} 
                     component={History} 
                     options={{ 
                         drawerIcon: () => (
@@ -69,7 +72,7 @@ const AppStack = () => {
                         ),
                         headerShown: false 
                     }}  />
-                <Drawer.Screen name="Book"    
+                <Drawer.Screen name={t('book')}    
                     component={Book}          
                     options={{ 
                         drawerIcon: () => (
@@ -78,7 +81,7 @@ const AppStack = () => {
                         headerShown: false 
                     }}  />
 
-                <Drawer.Screen name="Settings" 
+                <Drawer.Screen name={t('settings')}  
                     component={Settings}   
                     options={{ 
                         drawerIcon: () => (

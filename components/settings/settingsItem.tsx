@@ -8,7 +8,7 @@ import { ThemeContext, ThemeContextValue } from '../../contexts/themeContext';
 
 
 interface TextProps {
-    label?: string;
+    label: any;
     children: any;
 }
 

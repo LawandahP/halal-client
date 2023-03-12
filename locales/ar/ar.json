@@ -1,0 +1,23 @@
+
+
+{   
+    "hello": "مرحبًا",
+    "home": "بيت",
+    "history": "تاريخ",
+    "book": "كتاب",
+
+    "light": "ضوء",
+    "dark": "مظلم",
+    "system": "نظام",
+    "name": "اسم",
+    "date_joined": "تاريخ الانضمام",
+
+    "user": "مستخدم",
+    "theme_settings": "إعدادات الموضوع",
+    "language_settings": "اعدادات اللغة",
+    "settings": "إعدادات",
+
+    "sign_out": "خروج",
+    "share_app": "شارك التطبيق",
+    "search": "يبحث"
+}

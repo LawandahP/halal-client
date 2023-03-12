@@ -1,0 +1,20 @@
+{   
+    "hello": "Hello",
+    "home": "Home",
+    "history": "History",
+    "book": "Book",
+
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "name": "Name",
+    "date_joined": "Date Joined",
+    "user": "User",
+    "theme_settings": "Theme Settings",
+    "language_settings": "Language Settings",
+    "settings": "Settings",
+
+    "sign_out": "Sign Out",
+    "share_app": "Share App",
+    "search": "search"
+}

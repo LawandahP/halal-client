@@ -12,7 +12,7 @@ import { ThemeContext, ThemeContextValue } from '../../contexts/themeContext';
 
 interface TextProps {
     label: string;
-    icon: any;
+    icon?: any;
     isActive: boolean;
     onPress: () => void;
 }
