@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { I18nManager, Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { Colors } from './styles'
 

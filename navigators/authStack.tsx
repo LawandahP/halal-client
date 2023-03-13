@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Login from '../screens/login';
 import SignUp from '../screens/signup';
@@ -9,6 +9,7 @@ import { Colors } from '../components/styles';
 
 import BottomStack from './tabNavigator';
 import Welcome from '../screens/welcome';
+import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 
 
 type RootStackParamList = {
@@ -22,7 +23,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AuthStack = () => {
 
-    let activeColors = Colors;
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
+    let activeColors = Colors[theme.mode];
+    
     return (
         <NavigationContainer>
             <Stack.Navigator
@@ -30,7 +33,7 @@ const AuthStack = () => {
                     headerStyle: {
                         backgroundColor: "transparent",
                     },
-                    headerTintColor: activeColors.tertiary,
+                    headerTintColor: activeColors.primary,
                     headerTransparent: true,
                     headerTitle: '',
                     // headerLeftContainerStyle: {

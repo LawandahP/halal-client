@@ -11,6 +11,7 @@ import i18n from './i18n';
 
 import * as Updates from 'expo-updates'
 import { I18nextProvider } from 'react-i18next';
+import AuthStack from './navigators/authStack';
 // keep splash screenvisible while fetching resources
 
 SplashScreen.preventAutoHideAsync();
@@ -27,13 +28,13 @@ export default function App() {
   const changeLanguage = async (lang: string) => {
     setSelectedLanguage(lang);
     i18n.changeLanguage(lang)
-    if (i18n.language === 'ar') {
-      I18nManager.allowRTL(true);
-      I18nManager.forceRTL(true);
-    } else {
-      I18nManager.allowRTL(false);
-      I18nManager.forceRTL(false);
-    }
+    // if (i18n.language === 'ar') {
+    //   I18nManager.allowRTL(true);
+    //   I18nManager.forceRTL(true);
+    // } else {
+    //   I18nManager.allowRTL(false);
+    //   I18nManager.forceRTL(false);
+    // }
     // i18n.changeLanguage(lang).then(() => {
     //   I18nManager.forceRTL(i18n.language === 'ar')
     // });
@@ -102,11 +103,12 @@ export default function App() {
   }, [])
 
   return (
-      // <AuthStack />
+      // 
       <LocalizationContext.Provider value={{t: i18n.t, selectedLanguage, changeLanguage}}>
       {/* <I18nextProvider i18n={i18n}> */}
         <ThemeContext.Provider value={{theme, updateTheme}}>
-          <AppStack />
+          {/* <AppStack /> */}
+          <AuthStack />
         </ThemeContext.Provider>
       {/* </I18nextProvider> */}
         

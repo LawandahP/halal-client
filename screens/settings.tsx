@@ -36,7 +36,8 @@ interface SettingProps {
 }
 
 // Enable RTL support
-I18nManager.forceRTL(true);
+// I18nManager.forceRTL(true);
+
 
 const Settings = (props: SettingProps) => {
     const { t, selectedLanguage, changeLanguage } = useTranslations();
@@ -66,7 +67,7 @@ const Settings = (props: SettingProps) => {
     })
 
   return (
-    <MainContainer styles={styles.container}>
+    <MainContainer styles={styles.container}    >
         <StyledText
             styles={{color: activeColors.brand}}
             small

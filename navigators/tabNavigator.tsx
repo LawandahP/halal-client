@@ -1,8 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-
 import React, { useContext } from 'react'
-import Settings from '../screens/settings';
 import Welcome from '../screens/welcome';
 import { Colors } from "../components/styles";
 

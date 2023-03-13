@@ -37,7 +37,7 @@ export const Container = styled.View`
     flex: 1;
     padding: 25px;
     padding-top: ${StatusBarHeight + 30}px;
-    background-color: ${primary};
+    /* background-color: ${primary}; */
 `
 
 export const InnerContainer = styled.View`
@@ -83,28 +83,26 @@ export const FormArea = styled.View`
 `
 
 export const StyledTextInput = styled.TextInput`
-    background-color: ${secondary};
+    /* background-color: ${secondary}; */
     padding: 15px;
     padding-left: 55px;
     padding-right: 55px;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 15px;
     height: 60px;
     margin-vertical: 3px;
     margin-bottom: 10px;
-    color: ${tertiary};
+    /* color: ${tertiary}; */
 `
 
 export const InputLabel = styled.Text`
-    color: ${tertiary};
-    /* background: red; */
-    font-size: 12px;
+    font-size: 16px;
     text-align: left;
 `
 
 export const InputIcon = styled.View`
     left: 15px;
-    top: 33px;
+    top: 40%;
     position: absolute;
     z-index: 1;
 `
@@ -163,7 +161,6 @@ export const ExtraView = styled.View`
 export const ExtraText = styled.Text`
     justify-content: center;
     align-content: center;
-    color: ${tertiary};
     font-size: 15px;
 `
 

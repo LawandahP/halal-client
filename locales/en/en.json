@@ -16,5 +16,21 @@
 
     "sign_out": "Sign Out",
     "share_app": "Share App",
-    "search": "search"
+    "login": "Login",
+    "sign_up": "Sign Up",
+    "email": "Email Address",
+    "password": "Password",
+    "enter_password": "Enter Password",
+    "submit": "Submit",
+    "sign_in_with_google": "Sign in with Google",
+    "dont_have_an_account": "Don't have an account?",
+
+    "full_name": "Full Name",
+    "phone_number": "Phone Number",
+    "date_of_birth": "Date Of Birth",
+    "confirm_password": "Confirm Password",
+    "have_an_account": "Have an account?",
+    "create_account": "Create Account"
+    
+
 }

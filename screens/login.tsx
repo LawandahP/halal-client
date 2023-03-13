@@ -1,21 +1,25 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useContext, useState } from 'react'
 import { BtnText, Colors, Container, ExtraText, ExtraView, FormArea, InnerContainer, Line, MsgBox, PageLogo, PageTitle, StyledButton, SubTitle, TextLink, TextLinkContent } from '../components/styles'
 import { Formik } from 'formik'
 import TextInput from '../components/textInput'
 
 import { Fontisto } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
+import { ThemeContext, ThemeContextValue } from '../contexts/themeContext'
+import { useTranslations } from '../contexts/localizationContext'
 // import KeyBoardWrapper from '../components/keyboardWrapper'
 
 
 interface LoginProps {
-    navigation: () => void;
+    navigation: any;
 }
 
 
 const Login = (props: LoginProps) => {
+    const { t } = useTranslations();
 
-    let activeColors = Colors;
+    const { theme } = useContext<ThemeContextValue>(ThemeContext)
+    let activeColors = Colors[theme.mode];
 
     const [ hidePassword, setHidePassword] = useState(true)
     const initialVals: any = {
@@ -29,12 +33,12 @@ const Login = (props: LoginProps) => {
   return (
 
     // <KeyBoardWrapper>
-        <Container>
-            <StatusBar style="dark" />
+        <Container style={{backgroundColor: activeColors.primary}}>
+            <StatusBar style={theme.mode === "dark" ? "light" : "dark"}/>
             <InnerContainer>
                 {/* <PageLogo resizeMode="cover" source={require('./../assets/images/image1.jpg')} /> */}
                 <PageTitle>Halal</PageTitle>
-                <SubTitle>Login</SubTitle>
+                <SubTitle style={{color: activeColors.light}}>{t('login')}</SubTitle>
 
                 <Formik
                     initialValues={initialVals}
@@ -45,10 +49,10 @@ const Login = (props: LoginProps) => {
                         {({handleChange, handleBlur, values}) => 
                             <FormArea>
                                 <TextInput 
-                                    label="Email" 
+                                    label={t("email")}  
                                     icon="mail"
                                     placeholder="johndoe@gmail.com"
-                                    placeHolderTextColor={activeColors.darkLight}
+                                    placeHolderTextColor={activeColors.light}
                                     onChangeText={handleChange('email')}
                                     onBlur={handleBlur('email')}
                                     value={values.email}
@@ -56,10 +60,10 @@ const Login = (props: LoginProps) => {
                                 />
 
                                 <TextInput 
-                                    label="Password" 
+                                    label={t("password")} 
                                     icon="lock"
                                     isPassword={true}
-                                    placeholder="Enter password"
+                                    placeholder={t("enter_password")}
                                     placeHolderTextColor={activeColors.darkLight}
                                     onChangeText={handleChange('password')}
                                     onBlur={handleBlur('password')}
@@ -71,26 +75,26 @@ const Login = (props: LoginProps) => {
 
                                 <MsgBox>...</MsgBox>
                                 <StyledButton onPress={handleSubmit}>
-                                    <BtnText>Submit</BtnText>
+                                    <BtnText>{t("submit")}</BtnText>
                                 </StyledButton>
 
                                 <Line />
 
-                                <StyledButton google onPress={handleSubmit}>
-                                    <Fontisto name="google" color={activeColors.primary} size={25}/>
-                                    <BtnText google>Sign in with Google</BtnText>
+                                <StyledButton google={true} onPress={handleSubmit}>
+                                    <Fontisto name="google" color={activeColors.light} size={25}/>
+                                    <BtnText google>{t("sign_in_with_google")}</BtnText>
                                 </StyledButton>
 
                                 <ExtraView>
-                                    <ExtraText>Don't have an account?</ExtraText>
+                                    <ExtraText style={{color: activeColors.light}}>{t("sign_in_with_google")}</ExtraText>
                                     <TextLink onPress={() => props.navigation.navigate("SignUp")}>
-                                        <TextLinkContent> Sign Up</TextLinkContent>
+                                        <TextLinkContent> {t("sign_up")}</TextLinkContent>
                                     </TextLink>
                                 </ExtraView>
 
                             </FormArea>
                         }
-                </Formik>
+                    </Formik>
                 <FormArea>
 
                 </FormArea>

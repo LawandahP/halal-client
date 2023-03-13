@@ -4,7 +4,7 @@ import { Colors
 
 
 // import { StatusBar } from 'expo-status-bar'
-import { View, TouchableOpacity , Text, ImageBackground, TextInput, StyleSheet } from 'react-native'
+import { View, TouchableOpacity , Text, ImageBackground, TextInput, StyleSheet, StatusBar } from 'react-native'
 import { Octicons } from '@expo/vector-icons';
 import MainContainer from '../components/mainContainer';
 import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
@@ -24,6 +24,7 @@ const Welcome = (props: HomeProps) => {
    
     return (
         <MainContainer styles={{padding: 20, paddingTop: 40}}>
+            {/* <StatusBar style="dark" /> */}
             <View style={styles.welcome}>
                 <Text style={{fontSize: 16, marginTop: 5, color: activeColors.light}}>{t('hello')} Githaiga</Text>
                 <TouchableOpacity onPress={() => props.navigation.openDrawer()}>

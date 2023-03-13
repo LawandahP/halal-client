@@ -13,6 +13,7 @@ import Settings from '../screens/settings';
 import BottomNavigator from './tabNavigator';
 import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 import { useTranslations } from '../contexts/localizationContext';
+import { I18nManager } from 'react-native';
 
 
 // type RootStackParamList = {
@@ -35,7 +36,7 @@ const AppStack = () => {
     return (
         <NavigationContainer>
             <Drawer.Navigator
-                defaultStatus='open'
+                // defaultStatus='open'
                 drawerContent={
                     props => <CustomDrawer {...props} />
                 }
@@ -43,6 +44,7 @@ const AppStack = () => {
                     headerStyle: {
                         backgroundColor: activeColors.primary,
                     },
+                    drawerPosition: I18nManager.isRTL ? 'right' : 'left',
                     headerTintColor: activeColors.light,
                     drawerActiveBackgroundColor: activeColors.brand,
                     drawerActiveTintColor: activeColors.light,
@@ -61,7 +63,8 @@ const AppStack = () => {
                             <Ionicons name="home-outline" 
                                 size={20} style={{color: activeColors.light}} />
                         ),
-                        headerShown: false 
+                        headerTitle: '',
+                        
                     }} 
                 />
                 <Drawer.Screen name={t('history')} 
