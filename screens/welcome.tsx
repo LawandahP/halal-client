@@ -1,32 +1,42 @@
-import React, { useContext, useLayoutEffect } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { Colors
 } from '../components/styles'
 
 
 // import { StatusBar } from 'expo-status-bar'
-import { View, TouchableOpacity , Text, ImageBackground, TextInput, StyleSheet, StatusBar } from 'react-native'
+import { View, TouchableOpacity , Text, ImageBackground, TextInput, StyleSheet, StatusBar, Alert } from 'react-native'
 import { Octicons } from '@expo/vector-icons';
 import MainContainer from '../components/mainContainer';
 import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 import { useTranslations } from '../contexts/localizationContext';
+import { getData } from '../config/asyncStorage';
+import { UserInfoInterface } from '../constants/interface';
+import { useAuth } from '../contexts/authContext';
 
 interface HomeProps {
-    navigation?: any
+    navigation?: any,
 }
 
 const Welcome = (props: HomeProps) => {
     const { t } = useTranslations();
 
+    // const [ userInfo, setUserInfo] = useState<UserInfoInterface>()
+
     const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
+    const { userInfo, getUserInfo } = useAuth()
+
+    useEffect(() => {
+        getUserInfo()
+    }, [])
    
    
     return (
         <MainContainer styles={{padding: 20, paddingTop: 40}}>
             {/* <StatusBar style="dark" /> */}
             <View style={styles.welcome}>
-                <Text style={{fontSize: 16, marginTop: 5, color: activeColors.light}}>{t('hello')} Githaiga</Text>
+                <Text style={{fontSize: 16, marginTop: 5, color: activeColors.light}}>{t('hello')} {userInfo?.username}</Text>
                 <TouchableOpacity onPress={() => props.navigation.openDrawer()}>
                     <ImageBackground 
                         source={require('../assets/images/image1.jpg')}

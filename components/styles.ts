@@ -83,16 +83,8 @@ export const FormArea = styled.View`
 `
 
 export const StyledTextInput = styled.TextInput`
-    /* background-color: ${secondary}; */
-    padding: 15px;
-    padding-left: 55px;
-    padding-right: 55px;
-    border-radius: 5px;
+    padding-left: 25px;
     font-size: 15px;
-    height: 60px;
-    margin-vertical: 3px;
-    margin-bottom: 10px;
-    /* color: ${tertiary}; */
 `
 
 export const InputLabel = styled.Text`
@@ -102,15 +94,12 @@ export const InputLabel = styled.Text`
 
 export const InputIcon = styled.View`
     left: 15px;
-    top: 40%;
-    position: absolute;
+    margin-right: 10px;
     z-index: 1;
 `
 
 export const IconButton = styled.TouchableOpacity`
     right: 15px;
-    top: 33px;
-    position: absolute;
     z-index: 1;
 `
 
@@ -139,9 +128,11 @@ export const BtnText = styled.Text<{google?: boolean}>`
     `}
 `
 
-export const MsgBox = styled.Text`
+export const MsgBox = styled.Text<{type?: boolean}>`
     text-align: center;
-    font-size: 13px;
+    font-size: 14px;
+    color: ${(props) => (props.type ? green : red)};
+    margin-bottom: 10px;
 `
 
 export const Line = styled.View`

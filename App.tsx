@@ -12,6 +12,8 @@ import i18n from './i18n';
 import * as Updates from 'expo-updates'
 import { I18nextProvider } from 'react-i18next';
 import AuthStack from './navigators/authStack';
+import { AuthProvider } from './contexts/authContext';
+import AppNav from './navigators/appNav';
 // keep splash screenvisible while fetching resources
 
 SplashScreen.preventAutoHideAsync();
@@ -103,16 +105,13 @@ export default function App() {
   }, [])
 
   return (
-      // 
-      <LocalizationContext.Provider value={{t: i18n.t, selectedLanguage, changeLanguage}}>
-      {/* <I18nextProvider i18n={i18n}> */}
-        <ThemeContext.Provider value={{theme, updateTheme}}>
-          {/* <AppStack /> */}
-          <AuthStack />
-        </ThemeContext.Provider>
-      {/* </I18nextProvider> */}
-        
-    </LocalizationContext.Provider>
+      <AuthProvider>
+        <LocalizationContext.Provider value={{t: i18n.t, selectedLanguage, changeLanguage}}>
+          <ThemeContext.Provider value={{theme, updateTheme}}>
+           <AppNav />
+          </ThemeContext.Provider>
+        </LocalizationContext.Provider>
+      </AuthProvider>
         
       
     

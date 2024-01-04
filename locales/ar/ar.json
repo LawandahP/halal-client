@@ -29,6 +29,9 @@
     "submit": "يُقدِّم",
     "sign_in_with_google": "الدخول مع جوجل",
     "dont_have_an_account": "ليس لديك حساب؟",
+    "or sign up with...": "أو قم بالتسجيل باستخدام ...",
+    "email_phone_or_username": "الايميل و الرقم و الاسم الشخصي",
+    "user_id": "مستخدم",
 
     "full_name": "الاسم الكامل",
     "phone_number": "رقم التليفون",

@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 export type Theme = {
     mode: any;
@@ -14,5 +14,8 @@ export type ThemeContextValue = {
 export const ThemeContext = createContext<ThemeContextValue>({
     theme: { mode: "dark", system: false },
     updateTheme: () => {},
-  });
+});
+
+export const useTheme = () => useContext(ThemeContext);
+
   

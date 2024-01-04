@@ -1,5 +1,5 @@
-import React, { FC, useContext } from 'react'
-import { View, TouchableOpacity } from 'react-native';
+import { useContext } from 'react'
+import { StyleSheet, Text, View } from 'react-native';
 import { Colors, IconButton, InputIcon, InputLabel, StyledTextInput } from './styles';
 
 import { Octicons, Ionicons } from '@expo/vector-icons'
@@ -16,15 +16,16 @@ interface Input {
     isDate?: boolean;
     isSearch?: boolean;
     showDatePicker?: () => void;
+    error?: string;
 
     placeholder: any
-    placeHolderTextColor: any
     onChangeText: any;
     onBlur: any;
     value: any;
     keyboardType?: string
     editable?: boolean
     secureTextEntry?: boolean
+    // props: any
 }
 
 
@@ -38,43 +39,64 @@ const TextInput = (props:Input) => {
 
   return (
     <View>
-      <InputIcon>
-        <Octicons name={props.icon} size={props.isSearch ? 20 : 30} color={Colors.brand}/>
-      </InputIcon>
-      <InputLabel style={{color: activeColors.darkLight}}>{props.label}</InputLabel>
+      <Text style={[styles.label, {color: props.error ? "red" : activeColors.darkLight}]}>{props.label}</Text>
+      <View 
+        error={props.error}
+        style={[
+          styles.inputContainer, 
+          {
+            backgroundColor: activeColors.secondary,
+            borderWidth: props.error ? 1 : 0,
+            borderColor: props.error ? "red" : ""
+          }]}>
+        <InputIcon>
+          <Octicons name={props.icon} size={props.isSearch ? 20 : 30} color={Colors.brand}/>
+        </InputIcon>
+        
         <StyledTextInput 
+            placeholderTextColor={activeColors.darkLight}
             style={{
-                backgroundColor: activeColors.secondary,
-                color: activeColors.light
+                color: activeColors.light,
+                flex: 1
             }} 
-            label={props.label}
-            icon={props.icon}
-            isPassword={props.isPassword}
-            hidePassword={props.hidePassword}
-            setHidePassword={props.setHidePassword}
-            isDate={props.isDate}
-            isSearch={props.isSearch}
-            showDatePicker={props.isSearch}
-
-            placeholder={props.placeholder}
-            placeHolderTextColor={props.placeHolderTextColor}
-            onChangeText={props.onChangeText}
-            onBlur={props.onBlur}
-            value={props.value}
-            keyboardType={props.keyboardType || "default"}
-            editable={props.editable}
-            secureTextEntry={props.secureTextEntry}
+            {...props}
           />
-      { props.isPassword && (
-        <IconButton onPress={handleShowPassword}>
-          <Ionicons size={30} 
-            color={Colors.darkLight} 
-            name={props.hidePassword ? "md-eye" : "md-eye-off" }
-          />
-        </IconButton>
-      )}
+          
+        { props.isPassword && (
+          <IconButton onPress={handleShowPassword}>
+            <Ionicons size={30} 
+              color={Colors.darkLight} 
+              name={props.hidePassword ? "md-eye" : "md-eye-off" }
+            />
+          </IconButton>
+        )}
+      </View>
+      {props.error && (
+              <Text style={styles.error}>{props.error[0]}</Text>
+          )}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  error: {
+      color: 'red',
+      marginTop: -8,
+      marginBottom: 10
+  },
+  label: {
+    marginVertical: 5,
+    fontSize: 16,
+  },
+  inputContainer: {
+    height: 60,
+    flexDirection: 'row',
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom: 10,
+
+  }
+
+})
 
 export default TextInput

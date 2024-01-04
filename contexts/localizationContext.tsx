@@ -13,5 +13,5 @@ export const LocalizationContext = createContext<LocalizationContextValue>({
     changeLanguage: () => {},
   });
 
-  export const useTranslations = () => useContext(LocalizationContext);
+export const useTranslations = () => useContext(LocalizationContext);
  

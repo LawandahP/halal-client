@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+// import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 
@@ -34,7 +34,7 @@ const AppStack = () => {
     let activeColors = Colors[theme.mode];
 
     return (
-        <NavigationContainer>
+        // <NavigationContainer>
             <Drawer.Navigator
                 // defaultStatus='open'
                 drawerContent={
@@ -95,7 +95,7 @@ const AppStack = () => {
                     }} 
                 />
             </Drawer.Navigator>
-        </NavigationContainer>
+        // </NavigationContainer>
     )
 }
 

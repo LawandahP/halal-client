@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { Alert, I18nManager, StyleSheet, View } from 'react-native'
 import { Colors } from '../components/styles';
 import MainContainer from '../components/mainContainer';
@@ -11,6 +11,7 @@ import { useTranslations } from '../contexts/localizationContext';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 import { storedData } from '../config/asyncStorage';
+import { useAuth } from '../contexts/authContext';
 
 
 interface SectionProps {
@@ -41,16 +42,7 @@ interface SettingProps {
 
 const Settings = (props: SettingProps) => {
     const { t, selectedLanguage, changeLanguage } = useTranslations();
-    // const { t } = useTranslation();
-    // const [locale, setLocale] = useState('en');
-
-    // const changeLanguage = (lang: string) => {
-    //     const newLocale = lang
-    //     i18n.changeLanguage(newLocale);
-    //     I18nManager.forceRTL(newLocale === 'ar');
-    //     setLocale(newLocale);
-    //     storedData("locale", newLocale)
-    // };
+    const { userInfo, getUserInfo } = useAuth()
 
     const LANGUAGES = [
         { code: "en", label: "English"},
@@ -66,8 +58,15 @@ const Settings = (props: SettingProps) => {
         })
     })
 
+    
+
+    useEffect(() => {
+        getUserInfo()
+        console.log(userInfo)
+    }, [])
+
   return (
-    <MainContainer styles={styles.container}    >
+    <MainContainer styles={styles.container}>
         <StyledText
             styles={{color: activeColors.brand}}
             small
@@ -78,7 +77,7 @@ const Settings = (props: SettingProps) => {
         <SettingsSection>
             <SettingsItem label={t('name')}>
                 <StyledText>
-                    Githaiga Kairuthi
+                    {userInfo.full_name}
                 </StyledText>
             </SettingsItem>
 

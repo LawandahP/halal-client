@@ -18,6 +18,7 @@ export const getData = async (key: string) => {
         return jsonVal != null ? JSON.parse(jsonVal) : null;
     } catch(message: any) {
         Alert.alert(message)
-
     }
 }
+
+export const BASE_URL = "http://localhost:8000/api/v1"

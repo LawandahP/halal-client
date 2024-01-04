@@ -17,7 +17,7 @@ const resources = {
 i18n.use(initReactI18next).init({
   resources,
   // lng: deviceLanguage && I18nManager.isRTL ? 'ar' : 'en', // default language
-  lng: 'ar',
+  lng: 'en',
   fallbackLng: 'en', // fallback language
   interpolation: {
     escapeValue: false, // not needed for react as it escapes by default

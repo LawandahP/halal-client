@@ -7,6 +7,7 @@ import { Colors } from './styles'
 import OpacityButton from './opacityButton';
 import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 import { useTranslations } from '../contexts/localizationContext';
+import { useAuth } from '../contexts/authContext';
 
 interface DrawerProps {
 
@@ -14,6 +15,7 @@ interface DrawerProps {
 
 const CustomDrawer = (props: DrawerProps) => {
     const { t } = useTranslations();
+    const { logout } = useAuth()
 
     const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
@@ -57,7 +59,7 @@ const CustomDrawer = (props: DrawerProps) => {
                         borderTopColor: activeColors.darkLight,
                 }}>
                 <OpacityButton icon='share-social-outline' label={t('share_app')} />
-                <OpacityButton icon='exit-outline' label={t('sign_out')} />
+                <OpacityButton onPress={() => (logout())} icon='exit-outline' label={t('sign_out')} />
 
             </View>
         </View>

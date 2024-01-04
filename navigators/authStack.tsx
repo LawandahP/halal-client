@@ -3,12 +3,12 @@ import React, { useContext } from 'react';
 import Login from '../screens/login';
 import SignUp from '../screens/signup';
 
-import { NavigationContainer } from '@react-navigation/native';
+// import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Colors } from '../components/styles';
 
-import BottomStack from './tabNavigator';
-import Welcome from '../screens/welcome';
+// import BottomStack from './tabNavigator';
+// import Welcome from '../screens/welcome';
 import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 
 
@@ -27,13 +27,13 @@ const AuthStack = () => {
     let activeColors = Colors[theme.mode];
     
     return (
-        <NavigationContainer>
+        // <NavigationContainer>
             <Stack.Navigator
                 screenOptions={{
                     headerStyle: {
                         backgroundColor: "transparent",
                     },
-                    headerTintColor: activeColors.primary,
+                    headerTintColor: activeColors.light,
                     headerTransparent: true,
                     headerTitle: '',
                     // headerLeftContainerStyle: {
@@ -44,7 +44,7 @@ const AuthStack = () => {
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="SignUp" component={SignUp} />
             </Stack.Navigator>
-        </NavigationContainer>
+        // {/* </NavigationContainer> */}
     )
 }
 

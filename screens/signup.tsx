@@ -1,26 +1,31 @@
-import React, { useContext, useState } from 'react'
+import { useState } from 'react'
 import { BtnText, Colors, Container, ExtraText, ExtraView, FormArea, InnerContainer, Line, MsgBox, PageLogo, PageTitle, StyledButton, SubTitle, TextLink, TextLinkContent } from '../components/styles'
 import { Formik } from 'formik'
 import TextInput from '../components/textInput'
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { StatusBar, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, Alert, StatusBar, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import KeyboardWrapper from '../components/keyboardWrapper'
-import { ThemeContext, ThemeContextValue } from '../contexts/themeContext'
+import { useTheme } from '../contexts/themeContext'
 import { useTranslations } from '../contexts/localizationContext'
+import { BASE_URL } from '../config/asyncStorage';
+import axios from 'axios';
+import { ErrorObject } from '../constants/interface';
 
 
 interface SignUpProps {
     navigation?: any
 }
 
+
+
 const SignUp = (props: SignUpProps) => {
-    const { theme } = useContext<ThemeContextValue>(ThemeContext)
+    const { theme } = useTheme()
     let activeColors = Colors[theme.mode];
 
     const {t} = useTranslations()
     
-    const [ hidePassword, setHidePassword] = useState(true)
+    const [hidePassword, setHidePassword] = useState(true)
 
     const [date, setDate] = useState(new Date(2001, 3, 6));
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -44,16 +49,47 @@ const SignUp = (props: SignUpProps) => {
 
     
     const initialVals: any = {
-        fullName: "",
+        full_name: "",
+        username: "",
         phone_number: "",
         email: "",
-        dateOfBirth: "",
+        // dateOfBirth: dob,
         password: ""
     }
 
-    const handleSubmit = () => {
+    const [notify, setNotify] = useState<string | undefined>()
+    const [messageType, setMessageType] = useState<string | undefined>()
 
+    const [ userInfo, setUserInfo ] = useState()
+    const [ errors, setErrors ] = useState<ErrorObject>({detail: {}});
+
+
+    const signup = async (credentials: any, setSubmitting: (value: boolean) => void) => {
+        setSubmitting(true)
+        const url = `${BASE_URL}/signup/`
+        await axios.post(url, credentials).then(res => {
+            let userInfo = res.data.data
+            setUserInfo(userInfo)
+
+            const { message, status, user, token } = userInfo
+            if (status == 'SUCCESS') {
+                props.navigation.navigate("Login")
+                setErrors({detail: {}})
+                Alert.alert(message)
+            } else {
+                setSubmitting(false)
+            }
+        }).catch(e => {
+            console.log(`error ${e}`)
+            setErrors(e.response.data.detail);
+            if (e.response.status === 500) {
+                setNotify("Oops. Something went wrong, feel free to contact us if the problem persists")
+            }
+            
+        })
+        setSubmitting(false)
     }
+    
   return (
     <KeyboardWrapper>
         <Container style={{backgroundColor: activeColors.primary}}>
@@ -74,89 +110,114 @@ const SignUp = (props: SignUpProps) => {
 
                 <Formik
                     initialValues={initialVals}
-                    onSubmit={(values) => {
-                        console.log(values)
+                    onSubmit={(values, {setSubmitting}) => {
+                        // if (values.username == '' || values.password == '' ) {
+                        //     setNotify("password is required")
+                        //     setSubmitting(false)
+                        // } else {
+                            signup(values, setSubmitting)
+                        // }
                     }}>
-                        {({handleChange, handleBlur, values}) => 
+                        {({handleSubmit, handleChange, handleBlur, values, isSubmitting}) => 
                             <FormArea>
                                 <TextInput  
                                     label={t("full_name")} 
                                     icon="person"
                                     placeholder="John Doe"
-                                    placeHolderTextColor={activeColors.light}
-                                    onChangeText={handleChange('fullNAme')}
-                                    onBlur={handleBlur('fullName')}
-                                    value={values.fullName}
-                                    keyboardType='text'
+                                    onChangeText={handleChange('full_name')}
+                                    onBlur={handleBlur('full_name')}
+                                    value={values.full_name}
+                                    error={errors.full_name}
                                 />
+
+                                <TextInput  
+                                    label={t("username")} 
+                                    icon="person"
+                                    autoCapitalize="none"
+                                    placeholder="Jvader"
+                                    onChangeText={handleChange('username')}
+                                    onBlur={handleBlur('username')}
+                                    value={values.username}
+                                    error={errors.username}
+                                />
+                                
 
                                 <TextInput 
                                     label={t("email")} 
                                     icon="mail"
+                                    autoCapitalize="none"
                                     placeholder="johndoe@gmail.com"
-                                    placeHolderTextColor={activeColors.light}
                                     onChangeText={handleChange('email')}
                                     onBlur={handleBlur('email')}
                                     value={values.email}
                                     keyboardType='email-address'
+                                    error={errors.email}
                                 />
+                               
 
                                 <TextInput 
                                     label={t("phone_number")} 
                                     icon="device-mobile"
                                     placeholder="05 890 939 238"
-                                    placeHolderTextColor={activeColors.darkLight}
-                                    onChangeText={handleChange('phoneNumber')}
-                                    onBlur={handleBlur('phoneNumber')}
-                                    value={values.phoneNumber}
+                                    onChangeText={handleChange('phone_number')}
+                                    onBlur={handleBlur('phone_number')}
+                                    value={values.phone_number}
                                     keyboardType='phone-pad'
+                                    error={errors.phone_number}
                                 />
-                            <TouchableOpacity style={{flex: 1}} onPress={showDatePicker}>
+                               
+                            {/* <TouchableOpacity style={{flex: 1}} onPress={showDatePicker}>
                                 <TextInput 
                                     label={t("date_of_birth")} 
                                     icon="calendar"
                                     placeholder="YYYY - MM - DD"
-                                    placeHolderTextColor={activeColors.darkLight}
                                     onChangeText={handleChange('dateOfBirth')}
                                     onBlur={handleBlur('dateOfBirth')}
                                     value={dob}
                                     isDate={true}
                                     editable={false}
                                 />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                                 <TextInput 
                                     label={t("password")} 
                                     icon="lock"
                                     isPassword={true}
                                     placeholder={t("enter_password")}
-                                    placeHolderTextColor={activeColors.darkLight}
                                     onChangeText={handleChange('password')}
                                     onBlur={handleBlur('password')}
                                     value={values.password}
                                     setHidePassword={setHidePassword}
                                     secureTextEntry={hidePassword}
                                     hidePassword={hidePassword}
+                                    error={errors.password}
                                 />
 
-                                <TextInput 
+                                {/* <TextInput 
                                     label={t("confirm_password")} 
                                     icon="key"
                                     isPassword={true}
                                     placeholder={t("confirm_password")}
-                                    placeHolderTextColor={activeColors.darkLight}
-                                    onChangeText={handleChange('confirmPassword')}
-                                    onBlur={handleBlur('confirmPassword')}
+                                    onChangeText={handleChange('confirm_password')}
+                                    onBlur={handleBlur('confirm_password')}
                                     value={values.confirmPassword}
                                     setHidePassword={setHidePassword}
                                     secureTextEntry={hidePassword}
                                     hidePassword={hidePassword}
-                                />
+                                /> */}
 
-                                <MsgBox>...</MsgBox>
-                                <StyledButton onPress={handleSubmit}>
-                                    <BtnText>{t("submit")}</BtnText>
-                                </StyledButton>
+                                <MsgBox>{notify}</MsgBox>
+
+                                { 
+                                    isSubmitting  ?
+                                    <StyledButton disabled={true}>
+                                        <ActivityIndicator size="large" color={activeColors.light} /> 
+                                    </StyledButton>
+                                    :
+                                    <StyledButton onPress={handleSubmit}>
+                                        <BtnText>{t("submit")}</BtnText>
+                                    </StyledButton>
+                                }
 
                                 <Line />
 
@@ -184,4 +245,9 @@ const SignUp = (props: SignUpProps) => {
   )
 }
 
+
 export default SignUp
+
+
+
+
