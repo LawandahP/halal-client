@@ -18,7 +18,7 @@ i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
   resources,
   // lng: deviceLanguage && I18nManager.isRTL ? 'ar' : 'en', // default language
-  lng: 'en',
+  lng: 'ar',
   fallbackLng: 'en', // fallback language
   interpolation: {
     escapeValue: false, // not needed for react as it escapes by default

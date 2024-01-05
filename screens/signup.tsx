@@ -104,14 +104,16 @@ const SignUp = (props: SignUpProps) => {
     }
     
   return (
-    <KeyboardWrapper>
+    // <KeyboardWrapper>
         <Container style={{backgroundColor: activeColors.primary}}>
             <StatusBar barStyle={theme.mode === "dark" ? "light-content" : "dark-content"} />
             <InnerContainer>
+                <PageTitle>Halal</PageTitle>
+                <SubTitle style={{color: activeColors.light}}>{t("create_account")}</SubTitle>
+                
                 <FormArea>
                     {/* <PageLogo resizeMode="cover" source={require('./../assets/images/image1.jpg')} /> */}
-                    <PageTitle>Halal</PageTitle>
-                    <SubTitle style={{color: activeColors.light}}>{t("create_account")}</SubTitle>
+                    
 
                     {isDatePickerVisible && (
                         <DateTimePickerModal
@@ -125,23 +127,23 @@ const SignUp = (props: SignUpProps) => {
                     <CustomInput
                         icon="person"
                         name="full_name"
-                        placeholder={t("full_name")}
+                        placeholder={t('full_name')}
                         control={control}
-                        rules={{ required: `${t("full_name")} is required` }}               
+                        rules={{ required: "Full Name is required" }}               
                     />
 
                     <CustomInput
                         icon="person"
                         name="username"
-                        placeholder={t("username")}
+                        placeholder={t('username')}
                         control={control}
-                        rules={{ required: `${t("username")} is required` }}               
+                        rules={{ required: "Username is required" }}               
                     />
 
                     <CustomInput
                         icon="mail"
                         name="email"
-                        placeholder={t("email")}
+                        placeholder={t('email')}
                         control={control}
                         keyboardType='email-address'             
                     />
@@ -149,13 +151,14 @@ const SignUp = (props: SignUpProps) => {
                     <CustomInput
                         icon="device-mobile"
                         name="phone_number"
-                        placeholder={t("phone_number")}
+                        placeholder={t('phone_number')}
                         control={control}
                         keyboardType='phone-pad'   
-                        rules={{ required: `${t("phone_number")} is required`}}          
+                        rules={{ required:"Phone Number is required" }}          
                     />
 
                     <CustomInput
+                        icon="lock"
                         name="password"
                         placeholder="Password"
                         initialSecureTextEntry
@@ -170,7 +173,7 @@ const SignUp = (props: SignUpProps) => {
                     />
 
                     <CustomButton 
-                        text={t("login")} 
+                        text={t('sign_up')} 
                         onPress={handleSubmit(signup)}
                         type={'PRIMARY'} 
                         bgColor={''} 
@@ -181,17 +184,17 @@ const SignUp = (props: SignUpProps) => {
                     <ExtraView>
                         <ExtraText style={{color: activeColors.light}}>{t("have_an_account")}</ExtraText>
                         <TextLink onPress={() => props.navigation.navigate("Login")}>
-                            <TextLinkContent> {t("login")}</TextLinkContent>
+                            <TextLinkContent> {t('login')}</TextLinkContent>
                         </TextLink>
                     </ExtraView>
                 </FormArea>
             </InnerContainer>
         </Container>
-    </KeyboardWrapper>
+    // </KeyboardWrapper>
   )
 }
 
-
+// 0506838517
 export default SignUp
 
 

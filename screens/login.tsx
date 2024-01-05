@@ -61,12 +61,13 @@ const Login = (props: LoginProps) => {
                     <CustomInput
                         icon="person"
                         name="username"
-                        placeholder={t("username")}
+                        placeholder={t('username')}
                         control={control}
-                        rules={{ required: `${t("username")} ${"is required"}` }}               
+                        rules={{ required: "Username is required" }}               
                     />
 
                     <CustomInput
+                        icon="lock"
                         name="password"
                         placeholder="Password"
                         initialSecureTextEntry
@@ -81,7 +82,7 @@ const Login = (props: LoginProps) => {
                     />
                     
                     <CustomButton 
-                        text={t("Sign In")} 
+                        text={t("login")} 
                         onPress={handleSubmit(onSubmitLogin)}
                         type={'PRIMARY'} 
                         bgColor={''} 
@@ -95,14 +96,14 @@ const Login = (props: LoginProps) => {
 
                     <Line />
 
-                    <MsgBox style={{color: activeColors.light, marginBottom: 20}}>{t("or sign up with...")}</MsgBox>
+                    <MsgBox style={{color: activeColors.light, marginBottom: 20}}>{t('or sign up with...')}</MsgBox>
 
                     <SocialLogins />
 
                     <ExtraView>
-                        <ExtraText style={{color: activeColors.light}}>{t("dont_have_an_account")}</ExtraText>
+                        <ExtraText style={{color: activeColors.light}}>{t('dont_have_an_account')}</ExtraText>
                         <TextLink onPress={() => props.navigation.navigate("SignUp")}>
-                            <TextLinkContent> {t("sign_up")}</TextLinkContent>
+                            <TextLinkContent> {t('sign_up')}</TextLinkContent>
                         </TextLink>
                     </ExtraView>
                 </FormArea>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { Colors } from './styles'
@@ -15,11 +15,15 @@ interface DrawerProps {
 
 const CustomDrawer = (props: DrawerProps) => {
     const { t } = useTranslations();
-    const { logout } = useAuth()
+    const { logout, userInfo, getUserInfo } = useAuth()
+   
 
     const { theme } = useContext<ThemeContextValue>(ThemeContext)
     let activeColors = Colors[theme.mode];
 
+    useEffect(() => {
+        getUserInfo()
+    }, [])
 
     return (
 
@@ -37,7 +41,7 @@ const CustomDrawer = (props: DrawerProps) => {
                         source={require('../assets/images/image1.jpg')} 
                     />
                     <Text style={{color: activeColors.brand, fontSize: 18}}>
-                            Githaiga Kairuthi
+                            {userInfo?.full_name}
                     </Text>
 
                     <Text style={{color: activeColors.brand}}>

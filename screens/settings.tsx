@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
-import { Alert, I18nManager, StyleSheet, View } from 'react-native'
+import React, { useContext, useEffect, useLayoutEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
 import { Colors } from '../components/styles';
 import MainContainer from '../components/mainContainer';
 import StyledText from '../components/settings/styledText';
@@ -8,9 +8,9 @@ import SettingsButton from '../components/settings/settingsButton';
 import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
 
 import { useTranslations } from '../contexts/localizationContext';
-import { useTranslation } from 'react-i18next';
-import i18n from '../i18n';
-import { storedData } from '../config/asyncStorage';
+// import { useTranslation } from 'react-i18next';
+// import i18n from '../i18n';
+// import { storedData } from '../config/asyncStorage';
 import { useAuth } from '../contexts/authContext';
 
 
@@ -124,6 +124,7 @@ const Settings = (props: SettingProps) => {
         >
             {t('language_settings')}
         </StyledText>
+        
         <SettingsSection>
             {LANGUAGES.map((language) => {
                 const activeLanguage = selectedLanguage === language.code
