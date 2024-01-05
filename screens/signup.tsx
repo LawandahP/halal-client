@@ -1,23 +1,31 @@
 import { useState } from 'react'
 import { BtnText, Colors, Container, ExtraText, ExtraView, FormArea, InnerContainer, Line, MsgBox, PageLogo, PageTitle, StyledButton, SubTitle, TextLink, TextLinkContent } from '../components/styles'
-import { Formik } from 'formik'
-import TextInput from '../components/textInput'
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { ActivityIndicator, Alert, StatusBar, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import {  Alert, StatusBar, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import KeyboardWrapper from '../components/keyboardWrapper'
 import { useTheme } from '../contexts/themeContext'
 import { useTranslations } from '../contexts/localizationContext'
 import { BASE_URL } from '../config/asyncStorage';
 import axios from 'axios';
-import { ErrorObject } from '../constants/interface';
+import CustomInput from '../components/CustomInput';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { setFormErrors } from '../contexts/authContext';
+import CustomButton from '../components/CustomButton';
 
 
 interface SignUpProps {
     navigation?: any
 }
 
-
+type FormValues = {
+    full_name: string
+    username: string
+    phone_number: any,
+    email: string,
+    // dateOfBirth: dob,
+    password: string
+};
 
 const SignUp = (props: SignUpProps) => {
     const { theme } = useTheme()
@@ -57,37 +65,42 @@ const SignUp = (props: SignUpProps) => {
         password: ""
     }
 
+    const form = useForm<FormValues>({
+        defaultValues: initialVals,
+      });
+    const { handleSubmit, setError, control } = form;
+    const [loading, setLoading] = useState(false)
+
     const [notify, setNotify] = useState<string | undefined>()
     const [messageType, setMessageType] = useState<string | undefined>()
 
     const [ userInfo, setUserInfo ] = useState()
-    const [ errors, setErrors ] = useState<ErrorObject>({detail: {}});
 
 
-    const signup = async (credentials: any, setSubmitting: (value: boolean) => void) => {
-        setSubmitting(true)
+
+    const signup: SubmitHandler<FieldValues> = async (data) => {
         const url = `${BASE_URL}/signup/`
-        await axios.post(url, credentials).then(res => {
+        await axios.post(url, data).then(res => {
             let userInfo = res.data.data
             setUserInfo(userInfo)
 
-            const { message, status, user, token } = userInfo
+            const { message, status } = userInfo
             if (status == 'SUCCESS') {
                 props.navigation.navigate("Login")
-                setErrors({detail: {}})
                 Alert.alert(message)
             } else {
-                setSubmitting(false)
+                setLoading(false)
             }
         }).catch(e => {
             console.log(`error ${e}`)
-            setErrors(e.response.data.detail);
-            if (e.response.status === 500) {
+            const errors = e?.response?.data.detail
+            setFormErrors(errors, setError)
+            if (e?.response?.status === 500) {
                 setNotify("Oops. Something went wrong, feel free to contact us if the problem persists")
             }
             
         })
-        setSubmitting(false)
+        setLoading(false)
     }
     
   return (
@@ -95,149 +108,82 @@ const SignUp = (props: SignUpProps) => {
         <Container style={{backgroundColor: activeColors.primary}}>
             <StatusBar barStyle={theme.mode === "dark" ? "light-content" : "dark-content"} />
             <InnerContainer>
-                {/* <PageLogo resizeMode="cover" source={require('./../assets/images/image1.jpg')} /> */}
-                <PageTitle>Halal</PageTitle>
-                <SubTitle style={{color: activeColors.light}}>{t("create_account")}</SubTitle>
-
-                {isDatePickerVisible && (
-                    <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
-                        mode="date"
-                        onConfirm={handleConfirm}
-                        onCancel={hideDatePicker}
-                    />
-                )}
-
-                <Formik
-                    initialValues={initialVals}
-                    onSubmit={(values, {setSubmitting}) => {
-                        // if (values.username == '' || values.password == '' ) {
-                        //     setNotify("password is required")
-                        //     setSubmitting(false)
-                        // } else {
-                            signup(values, setSubmitting)
-                        // }
-                    }}>
-                        {({handleSubmit, handleChange, handleBlur, values, isSubmitting}) => 
-                            <FormArea>
-                                <TextInput  
-                                    label={t("full_name")} 
-                                    icon="person"
-                                    placeholder="John Doe"
-                                    onChangeText={handleChange('full_name')}
-                                    onBlur={handleBlur('full_name')}
-                                    value={values.full_name}
-                                    error={errors.full_name}
-                                />
-
-                                <TextInput  
-                                    label={t("username")} 
-                                    icon="person"
-                                    autoCapitalize="none"
-                                    placeholder="Jvader"
-                                    onChangeText={handleChange('username')}
-                                    onBlur={handleBlur('username')}
-                                    value={values.username}
-                                    error={errors.username}
-                                />
-                                
-
-                                <TextInput 
-                                    label={t("email")} 
-                                    icon="mail"
-                                    autoCapitalize="none"
-                                    placeholder="johndoe@gmail.com"
-                                    onChangeText={handleChange('email')}
-                                    onBlur={handleBlur('email')}
-                                    value={values.email}
-                                    keyboardType='email-address'
-                                    error={errors.email}
-                                />
-                               
-
-                                <TextInput 
-                                    label={t("phone_number")} 
-                                    icon="device-mobile"
-                                    placeholder="05 890 939 238"
-                                    onChangeText={handleChange('phone_number')}
-                                    onBlur={handleBlur('phone_number')}
-                                    value={values.phone_number}
-                                    keyboardType='phone-pad'
-                                    error={errors.phone_number}
-                                />
-                               
-                            {/* <TouchableOpacity style={{flex: 1}} onPress={showDatePicker}>
-                                <TextInput 
-                                    label={t("date_of_birth")} 
-                                    icon="calendar"
-                                    placeholder="YYYY - MM - DD"
-                                    onChangeText={handleChange('dateOfBirth')}
-                                    onBlur={handleBlur('dateOfBirth')}
-                                    value={dob}
-                                    isDate={true}
-                                    editable={false}
-                                />
-                            </TouchableOpacity> */}
-
-                                <TextInput 
-                                    label={t("password")} 
-                                    icon="lock"
-                                    isPassword={true}
-                                    placeholder={t("enter_password")}
-                                    onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
-                                    value={values.password}
-                                    setHidePassword={setHidePassword}
-                                    secureTextEntry={hidePassword}
-                                    hidePassword={hidePassword}
-                                    error={errors.password}
-                                />
-
-                                {/* <TextInput 
-                                    label={t("confirm_password")} 
-                                    icon="key"
-                                    isPassword={true}
-                                    placeholder={t("confirm_password")}
-                                    onChangeText={handleChange('confirm_password')}
-                                    onBlur={handleBlur('confirm_password')}
-                                    value={values.confirmPassword}
-                                    setHidePassword={setHidePassword}
-                                    secureTextEntry={hidePassword}
-                                    hidePassword={hidePassword}
-                                /> */}
-
-                                <MsgBox>{notify}</MsgBox>
-
-                                { 
-                                    isSubmitting  ?
-                                    <StyledButton disabled={true}>
-                                        <ActivityIndicator size="large" color={activeColors.light} /> 
-                                    </StyledButton>
-                                    :
-                                    <StyledButton onPress={handleSubmit}>
-                                        <BtnText>{t("submit")}</BtnText>
-                                    </StyledButton>
-                                }
-
-                                <Line />
-
-                                {/* <StyledButton google onPress={handleSubmit}>
-                                    <Fontisto name="google" color={Colors.primary} size={25}/>
-                                    <BtnText google>Sign Up with Google</BtnText>
-                                </StyledButton> */}
-
-                                <ExtraView>
-                                    <ExtraText style={{color: activeColors.light}}>{t("have_an_account")}</ExtraText>
-                                    <TextLink onPress={() => props.navigation.navigate("Login")}>
-                                        <TextLinkContent> {t("login")}</TextLinkContent>
-                                    </TextLink>
-                                </ExtraView>
-
-                            </FormArea>
-                        }
-                </Formik>
                 <FormArea>
+                    {/* <PageLogo resizeMode="cover" source={require('./../assets/images/image1.jpg')} /> */}
+                    <PageTitle>Halal</PageTitle>
+                    <SubTitle style={{color: activeColors.light}}>{t("create_account")}</SubTitle>
 
+                    {isDatePickerVisible && (
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            onConfirm={handleConfirm}
+                            onCancel={hideDatePicker}
+                        />
+                    )}
+
+                    <CustomInput
+                        icon="person"
+                        name="full_name"
+                        placeholder={t("full_name")}
+                        control={control}
+                        rules={{ required: `${t("full_name")} is required` }}               
+                    />
+
+                    <CustomInput
+                        icon="person"
+                        name="username"
+                        placeholder={t("username")}
+                        control={control}
+                        rules={{ required: `${t("username")} is required` }}               
+                    />
+
+                    <CustomInput
+                        icon="mail"
+                        name="email"
+                        placeholder={t("email")}
+                        control={control}
+                        keyboardType='email-address'             
+                    />
+
+                    <CustomInput
+                        icon="device-mobile"
+                        name="phone_number"
+                        placeholder={t("phone_number")}
+                        control={control}
+                        keyboardType='phone-pad'   
+                        rules={{ required: `${t("phone_number")} is required`}}          
+                    />
+
+                    <CustomInput
+                        name="password"
+                        placeholder="Password"
+                        initialSecureTextEntry
+                        control={control}
+                        rules={{
+                            required: 'Password is required',
+                            minLength: {
+                                value: 3,
+                                message: 'Password should be minimum 3 characters long',
+                            },
+                        }}
+                    />
+
+                    <CustomButton 
+                        text={t("login")} 
+                        onPress={handleSubmit(signup)}
+                        type={'PRIMARY'} 
+                        bgColor={''} 
+                        fgColor={''}
+                        loading={loading}
+                    />
+                    
+                    <ExtraView>
+                        <ExtraText style={{color: activeColors.light}}>{t("have_an_account")}</ExtraText>
+                        <TextLink onPress={() => props.navigation.navigate("Login")}>
+                            <TextLinkContent> {t("login")}</TextLinkContent>
+                        </TextLink>
+                    </ExtraView>
                 </FormArea>
             </InnerContainer>
         </Container>

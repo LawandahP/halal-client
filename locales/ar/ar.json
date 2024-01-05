@@ -34,9 +34,12 @@
     "user_id": "مستخدم",
 
     "full_name": "الاسم الكامل",
+    "username": "اسم المستخدم",
     "phone_number": "رقم التليفون",
     "date_of_birth": "تاريخ الميلاد",
     "confirm_password": "تأكيد كلمة المرور",
     "have_an_account": "هل لديك حساب؟",
-    "create_account": "إنشاء حساب"
+    "create_account": "إنشاء حساب",
+
+    "is_required": "مطلوب"
 }

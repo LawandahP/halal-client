@@ -4,7 +4,7 @@ import en from './locales/en/en.json';
 import ar from './locales/ar/ar.json';
 
 // import { getLocales } from 'expo-localization';
-import * as Localization from 'expo-localization';
+// import * as Localization from 'expo-localization';
 // import { I18nManager } from 'react-native';
 
 // const deviceLanguage = getLocales()[0].languageCode;
@@ -15,6 +15,7 @@ const resources = {
 };
 
 i18n.use(initReactI18next).init({
+  compatibilityJSON: 'v3',
   resources,
   // lng: deviceLanguage && I18nManager.isRTL ? 'ar' : 'en', // default language
   lng: 'en',

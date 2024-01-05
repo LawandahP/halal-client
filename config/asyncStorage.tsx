@@ -8,7 +8,6 @@ export const storedData = async (key: string, value: any) => {
         await AsyncStorage.setItem(key, jsonVal)
     } catch(message: any) {
         Alert.alert(message)
-
     }
 }
 
@@ -21,4 +20,4 @@ export const getData = async (key: string) => {
     }
 }
 
-export const BASE_URL = "http://localhost:8000/api/v1"
+export const BASE_URL = "http://192.168.0.105:8000/api/v1"

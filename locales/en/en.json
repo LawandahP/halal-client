@@ -29,11 +29,13 @@
     "user_id": "User",
 
     "full_name": "Full Name",
+    "username": "Username",
     "phone_number": "Phone Number",
     "date_of_birth": "Date Of Birth",
     "confirm_password": "Confirm Password",
     "have_an_account": "Have an account?",
-    "create_account": "Create Account"
+    "create_account": "Create Account",
+    "is_required": "is required"
     
 
 }

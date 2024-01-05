@@ -1,7 +1,5 @@
-import { FC, useContext, useState } from 'react'
+import { useState } from 'react'
 import { BtnText, Colors, Container, ExtraText, ExtraView, FormArea, InnerContainer, Line, MsgBox, PageLogo, PageTitle, StyledButton, SubTitle, TextLink, TextLinkContent } from '../components/styles'
-import { Formik } from 'formik'
-import TextInput from '../components/textInput'
 
 // import { Fontisto } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
@@ -10,10 +8,12 @@ import { useTranslations } from '../contexts/localizationContext'
 import { useAuth } from '../contexts/authContext'
 // import { Text } from 'react-native'
 // import Loader from '../components/loader'
-import { ActivityIndicator } from 'react-native'
 // import KeyBoardWrapper from '../components/keyboardWrapper'
 
 import SocialLogins from '../components/socialLogins'
+import CustomInput from '../components/CustomInput'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import CustomButton from '../components/CustomButton'
 
 
 
@@ -21,100 +21,90 @@ interface LoginProps {
     navigation: any;
 }
 
+type FormValues = {
+    username: string;
+    password: string;
+};
+
+const initialVals: FormValues = {
+    username: "",
+    password: ""
+}
 
 const Login = (props: LoginProps) => {
     const { t } = useTranslations();
-    const { errors, setErrors, login, message, messageType, handleMessage } = useAuth()
+    const { login, errors, isLoading } = useAuth()
 
     const { theme } = useTheme()
     let activeColors = Colors[theme.mode];
 
-    const [ hidePassword, setHidePassword] = useState(true)
+    const form = useForm<FormValues>({
+        defaultValues: initialVals,
+      });
+    const { handleSubmit, setError, control } = form;
+    
+    const onSubmitLogin: SubmitHandler<FieldValues> = async (data) => {
+        login(data, setError);
+    };
 
-    const initialVals: any = {
-        username: "",
-        password: ""
-    }
 
     return (
         <Container style={{backgroundColor: activeColors.primary}}>
-            <StatusBar style={theme.mode === "dark" ? "light" : "dark"}/>
+            <StatusBar style={theme.mode === "dark" ? "light" : "dark"} />
             <InnerContainer>
                 {/* <PageLogo resizeMode="cover" source={require('./../assets/images/image1.jpg')} /> */}
                 <PageTitle>Halal</PageTitle>
                 <SubTitle style={{color: activeColors.light}}>{t('login')}</SubTitle>
 
-                <Formik
-                    initialValues={initialVals}
-                    onSubmit={(values, {setSubmitting}) => {
-                        // if (values.username == '' || values.password == '') {
-                        //     handleMessage(t("All fields are required"))
-                        //     setSubmitting(false)
-                        // } else {
-                            login(values, setSubmitting)
-                            
-                        // }
-                    }}>
-                        {({handleSubmit, handleChange, handleBlur, values, isSubmitting}) => 
-                            <FormArea>
-                                <TextInput 
-                                    label={t("user_id")} 
-                                    icon="person"
-                                    placeholder={t("email_phone_or_username")}
-                                    autoCapitalize="none"
-                                    onChangeText={handleChange('username')}
-                                    onBlur={handleBlur('username')}
-                                    value={values.username}
-                                    error={errors.username}
-                                />
-
-                                <TextInput 
-                                    label={t("password")} 
-                                    icon="lock"
-                                    isPassword={true}
-                                    placeholder={t("enter_password")}
-                                    onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
-                                    value={values.password}
-                                    setHidePassword={setHidePassword}
-                                    secureTextEntry={hidePassword}
-                                    hidePassword={hidePassword}
-                                    error={errors.password}
-                                />
-
-                                    {errors.non_field_errors && 
-                                    <MsgBox style={{color: 'red'}}>{errors.non_field_errors[0]}</MsgBox>    
-                                    }
-                                                            
-                                    { 
-                                        isSubmitting  ?
-                                        <StyledButton disabled={true}>
-                                            <ActivityIndicator size="large" color={activeColors.light} /> 
-                                        </StyledButton>
-                                        :
-                                        <StyledButton onPress={handleSubmit}>
-                                            <BtnText>{t("submit")}</BtnText>
-                                        </StyledButton>
-                                    }
-                                <Line />
-
-                                <MsgBox style={{color: activeColors.light, marginBottom: 20}}>{t("or sign up with...")}</MsgBox>
-
-                               
-
-                                <SocialLogins />
-
-                                <ExtraView>
-                                    <ExtraText style={{color: activeColors.light}}>{t("dont_have_an_account")}</ExtraText>
-                                    <TextLink onPress={() => props.navigation.navigate("SignUp")}>
-                                        <TextLinkContent> {t("sign_up")}</TextLinkContent>
-                                    </TextLink>
-                                </ExtraView>
-                            </FormArea>
-                        }
-                    </Formik>  
                 <FormArea>
 
+                    <CustomInput
+                        icon="person"
+                        name="username"
+                        placeholder={t("username")}
+                        control={control}
+                        rules={{ required: `${t("username")} ${"is required"}` }}               
+                    />
+
+                    <CustomInput
+                        name="password"
+                        placeholder="Password"
+                        initialSecureTextEntry
+                        control={control}
+                        rules={{
+                            required: 'Password is required',
+                            minLength: {
+                                value: 3,
+                                message: 'Password should be minimum 3 characters long',
+                            },
+                        }}
+                    />
+                    
+                    <CustomButton 
+                        text={t("Sign In")} 
+                        onPress={handleSubmit(onSubmitLogin)}
+                        type={'PRIMARY'} 
+                        bgColor={''} 
+                        fgColor={''}
+                        loading={isLoading}
+                    />
+
+                    {errors?.non_field_errors && 
+                        <MsgBox style={{"color": 'red'}}>{errors?.non_field_errors[0]}</MsgBox>    
+                    }
+
+                    <Line />
+
+                    <MsgBox style={{color: activeColors.light, marginBottom: 20}}>{t("or sign up with...")}</MsgBox>
+
+                    <SocialLogins />
+
+                    <ExtraView>
+                        <ExtraText style={{color: activeColors.light}}>{t("dont_have_an_account")}</ExtraText>
+                        <TextLink onPress={() => props.navigation.navigate("SignUp")}>
+                            <TextLinkContent> {t("sign_up")}</TextLinkContent>
+                        </TextLink>
+                    </ExtraView>
                 </FormArea>
             </InnerContainer>
         </Container>

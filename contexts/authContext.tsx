@@ -8,20 +8,20 @@ import { ErrorObject, UserInfoInterface } from "../constants/interface";
 
 type AuthContextType = {
     userInfo: UserInfoInterface
-    setUserInfo: () => void
-    errors: string | undefined
-    setErrors: () => void
+    setUserInfo: (value: UserInfoInterface) => void
+    errors: any
+    setErrors: (value: ErrorObject) => void
     message: string | undefined
-    setMessage: () => void
+    setMessage: (value: string) => void
     messageType: string | undefined
-    setMessageType: () => void
+    setMessageType: (value: string) => void
     isLoading: boolean;
     setIsLoading?: (value: boolean) => void;
     userToken: string | null,
-    setUseToken?: () => void,
-    login: (value: any) => void,
+    setUseToken?: (value: string | null) => void,
+    login: (credentials: any, setError: any) => void,
     logout: () => void,
-    handleMessage: (value: any) => void,
+    handleMessage: (message: string, type?: string) => void,
     getUserInfo: () => void
 };
 export const AuthContext = createContext<AuthContextType>({
@@ -53,8 +53,49 @@ export const AuthContext = createContext<AuthContextType>({
 interface AuthProps {
     children: any
 }
+
+
+
+export function setFormErrors<T>(
+    errors: {
+      [key: string]: string | { [key: string]: string } | string[]
+    },
+    setError: any
+  ) {
+    if (errors && typeof errors === 'object') {
+      Object.keys(errors).forEach((fieldName) => {
+        const errorValue = errors[fieldName]
+  
+        if (Array.isArray(errorValue)) {
+          // Handle direct error messages (array of strings)
+          errorValue.forEach((directError) => {
+            setError(fieldName as keyof T, {
+              type: 'server',
+              message: directError,
+            })
+          })
+        } else if (typeof errorValue === 'object') {
+          // Handle nested field errors (object with field names as keys and error messages as values)
+          Object.keys(errorValue).forEach((nestedField) => {
+            setError(`${fieldName}.${nestedField}` as keyof T, {
+              type: 'server',
+              message: errorValue[nestedField],
+            })
+          })
+        } else {
+          // If it's a single string, handle it as a direct error
+          setError(fieldName as keyof T, {
+            type: 'server',
+            message: errorValue,
+          })
+        }
+      })
+    }
+  }
+
+
 export const AuthProvider = (props:AuthProps) => {
-    const [ errors, setErrors ] = useState<ErrorObject>({detail: {}});
+    const [ errors, setErrors ] = useState({detail: {}});
     
     const [message, setMessage] = useState<string | undefined>()
     const [messageType, setMessageType] = useState<string | undefined>()
@@ -67,7 +108,7 @@ export const AuthProvider = (props:AuthProps) => {
         setMessageType(type)
     }
 
-    const [ userInfo, setUserInfo] = useState<UserInfoInterface>()
+    const [ userInfo, setUserInfo] = useState<any>()
 
     const getUserInfo = async () => {
         try {
@@ -79,35 +120,32 @@ export const AuthProvider = (props:AuthProps) => {
           Alert.alert(`User not authenticated ${e}`)
         }
     }
-
-   
-    
-    const login = async (credentials: any, setSubmitting: (value: boolean) => void) => {
+       
+    const login = async (credentials: any, setError: any) => {
         handleMessage("")
+        console.log(credentials)
         setIsLoading(true)
         const url = `${BASE_URL}/login/`
         await axios.post(url, credentials).then(res => {
-            let userInfo = res.data.data
+            let userInfo = res?.data?.data
+            setIsLoading(false);
             setUserInfo(userInfo)
             storedData('userInfo', userInfo.user)
 
-            const { message, status, user, token } = userInfo
+            const { token } = userInfo
 
             setUserToken(token)
             storedData('userToken', userToken);
-            if (status == 'SUCCESS') {
-                // handleMessage(message, status)
-                setErrors({detail: {}})
-            } 
-            setSubmitting(false)
-            console.log(res.data)
+            console.log(res?.data)
         }).catch(e => {
-            console.log(`error ${e}`)
-            setErrors(e.response.data.detail)
-            setSubmitting(false)
+            console.log(`error ${JSON.stringify( e?.response?.data?.detail)}`)
+
+            const errors = e?.response?.data?.detail
+            setFormErrors(errors, setError)
+            setErrors(e?.response?.data?.detail)
             setIsLoading(false);
 
-            if (e.response.status === 500) {
+            if (e?.response?.status === 500) {
                 handleMessage("An error occurred. Check your network and try again")
             }
             
@@ -125,22 +163,35 @@ export const AuthProvider = (props:AuthProps) => {
         setIsLoading(false)
     }
 
-    const isLoggedIn = async () => {
-        try {
-            setIsLoading(true);
-            let userToken = await getData('userToken')
-            setUserToken(userToken)
-            setIsLoading(false)
-        } catch(e) {
-            Alert.alert(`Error lil bitch ${e}`)
-        }
+    // const isLoggedIn = async () => {
+    //     try {
+    //         setIsLoading(true);
+    //         let userToken = await getData('userToken')
+    //         setUserToken(userToken)
+    //         setIsLoading(false)
+    //     } catch(e) {
+    //         Alert.alert(`Error lil bitch ${e}`)
+    //     }
         
-    }
+    // }
+    useEffect(() => {
+        const checkLoggedInStatus = async () => {
+            try {
+                setIsLoading(true);
+                let userToken = await getData('userToken')
+                setUserToken(userToken)
+                setIsLoading(false)
+            } catch(e) {
+                Alert.alert(`Error ${e}`)
+            }
+        }
+        checkLoggedInStatus();
+    }, [])
     
 
-    useEffect(() => {
-        isLoggedIn()
-    }, [])
+    // useEffect(() => {
+    //     isLoggedIn()
+    // }, [])
 
     return (
         <AuthContext.Provider 
