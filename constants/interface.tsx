@@ -14,4 +14,5 @@ export interface UserInfoInterface {
     username: string;
     email: string;
     phone_number: any;
+    created_at: any;
 }

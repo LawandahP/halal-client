@@ -26,7 +26,7 @@ export default function Header() {
           <View>
             <Text style={{ color: Colors.white, fontFamily: 'outfit'}}>{t("hello")}</Text>
             <Text style={{ fontSize: 17, color: Colors.white,  fontFamily: 'outfit-medium'}}>
-              {userInfo?.username}
+              {userInfo?.full_name}
             </Text>
           </View>
         

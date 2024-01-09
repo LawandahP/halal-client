@@ -5,7 +5,7 @@ import { Colors } from "../components/styles";
 import { Ionicons } from "@expo/vector-icons";
 import { ThemeContext, ThemeContextValue } from "../../contexts/themeContext";
 import Settings from "../screens/settings";
-import HomeScreen from "../screens/HomeScreen";
+import AuthenticatedStack from "./authenticatedStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +31,7 @@ const BottomNavigator = () => {
         tabBarActiveTintColor: activeColors.brand,
         tabBarInactiveTintColor: activeColors.light,
         tabBarStyle: {
-          backgroundColor: activeColors.primary,
+          backgroundColor: activeColors.secondary,
         },
         // tabBarShowLabel: false,
         // headerTitleAlign: "left",
@@ -46,7 +46,7 @@ const BottomNavigator = () => {
         
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={AuthenticatedStack} />
       <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
     // </NavigationContainer>

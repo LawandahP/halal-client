@@ -12,7 +12,7 @@ export const Colors: any = {
         tertiary: "#1f2937",
         darkLight: "#9ca3af",
         brand: "#0081e9",
-        light: "#333"
+        light: "#333000"
     },
 
     dark: {
@@ -29,7 +29,8 @@ export const Colors: any = {
     darkLight: "#9ca3af",
     brand: "#0081e9",
     white: "#ffffff",
-    black: "#000000"
+    black: "#000000",
+    lightGray: "#EDEDED"
 };
 
 const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;

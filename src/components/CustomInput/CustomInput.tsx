@@ -2,8 +2,7 @@ import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Controller } from "react-hook-form";
 import {
-  ThemeContext,
-  ThemeContextValue,
+  useTheme,
 } from "../../../contexts/themeContext";
 import { Colors, IconButton, InputIcon, StyledTextInput } from "../styles";
 import { Ionicons, Octicons } from "@expo/vector-icons";
@@ -27,7 +26,7 @@ const CustomInput = ({
   placeholder,
   initialSecureTextEntry,
 }: CustomInputProps) => {
-  const { theme } = useContext<ThemeContextValue>(ThemeContext);
+  const { theme } = useTheme()
   let activeColors = Colors[theme.mode];
 
   const [secureTextEntry, setSecureTextEntry] = useState(

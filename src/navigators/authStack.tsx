@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import Login from "../screens/login";
 import SignUp from "../screens/signup";
@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Colors } from "../components/styles";
 
 // import BottomStack from './tabNavigator';
-import { ThemeContext, ThemeContextValue } from "../../contexts/themeContext";
+import { useTheme } from "../../contexts/themeContext";
 import LandingScreen from "../screens/LandingScreen";
 
 type RootStackParamList = {
@@ -20,7 +20,7 @@ type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AuthStack = () => {
-  const { theme } = useContext<ThemeContextValue>(ThemeContext);
+  const { theme } = useTheme()
   let activeColors = Colors[theme.mode];
 
   return (

@@ -16,10 +16,12 @@
 
     "sign_out": "Sign Out",
     "share_app": "Share App",
+    "search": "Search",
     "login": "Login",
     "sign_up": "Sign Up",
     "email": "Email Address",
     "password": "Password",
+    "password_requirements": "should be minimum 3 characters long",
     "enter_password": "Enter Password",
     "submit": "Submit",
     "sign_in_with_google": "Sign in with Google",

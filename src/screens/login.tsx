@@ -75,20 +75,20 @@ const Login = (props: LoginProps) => {
             name="username"
             placeholder={t("username")}
             control={control}
-            rules={{ required: "Username is required" }}
+            rules={{ required: `${t("username")} ${t("is_required")}` }}
           />
 
           <CustomInput
             icon="lock"
             name="password"
-            placeholder="Password"
+            placeholder={t("password")}
             initialSecureTextEntry
             control={control}
             rules={{
-              required: "Password is required",
+              required: `${t("password")} ${t("is_required")}`,
               minLength: {
                 value: 3,
-                message: "Password should be minimum 3 characters long",
+                message: `${t("password")} ${t("password_requirements")}`
               },
             }}
           />

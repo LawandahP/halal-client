@@ -4,7 +4,7 @@ import { Alert } from "react-native";
 import { BASE_URL, getData, storedData } from "../config/asyncStorage";
 import axios from "axios";
 import { ErrorObject, UserInfoInterface } from "../constants/interface";
-
+import { getLocales } from 'expo-localization';
 
 type AuthContextType = {
     userInfo: UserInfoInterface
@@ -122,11 +122,16 @@ export const AuthProvider = (props:AuthProps) => {
     }
        
     const login = async (credentials: any, setError: any) => {
+        const deviceLanguage = getLocales()[0].languageCode;
         handleMessage("")
         console.log(credentials)
         setIsLoading(true)
         const url = `${BASE_URL}/login/`
-        await axios.post(url, credentials).then(res => {
+        await axios.post(url, credentials, {
+            headers: {
+                'Accept-Language': deviceLanguage,
+            }
+        }).then(res => {
             let userInfo = res?.data?.data
             setIsLoading(false);
             setUserInfo(userInfo)

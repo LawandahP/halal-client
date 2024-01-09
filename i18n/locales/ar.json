@@ -25,6 +25,7 @@
     "sign_up": "اشتراك",
     "email": "بريد إلكتروني",
     "password": "كلمة المرور",
+    "password_requirements": "يجب أن يكون الحد الأدنى 3 أحرف",
     "enter_password": "أدخل كلمة المرور",
     "submit": "يُقدِّم",
     "sign_in_with_google": "الدخول مع جوجل",

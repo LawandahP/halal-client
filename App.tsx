@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import * as SplashScreen from "expo-splash-screen";
-import { Alert, Appearance } from "react-native";
+import { Alert, Appearance, I18nManager, Platform } from "react-native";
 import React, { useState, useEffect } from "react";
 // import AuthStack from './navigators/authStack';
 // import AppStack from "./src/navigators/appStack";
@@ -34,6 +34,11 @@ export default function App() {
   const changeLanguage = async (lang: string) => {
     setSelectedLanguage(lang);
     i18n.changeLanguage(lang);
+    if (i18n.language === 'ar' && Platform.OS !== 'web') {
+      I18nManager.allowRTL(true);
+      I18nManager.forceRTL(true);
+      Updates.reloadAsync();
+    }
     // if (i18n.language === 'ar') {
     //   I18nManager.allowRTL(true);
     //   I18nManager.forceRTL(true);
@@ -44,9 +49,9 @@ export default function App() {
     // i18n.changeLanguage(lang).then(() => {
     //   I18nManager.forceRTL(i18n.language === 'ar')
     // });
-    // RNRestart.Restart();
-    storedData("locale", lang);
-    Updates.reloadAsync();
+    // // RNRestart.Restart();
+    // storedData("locale", lang);
+    // Updates.reloadAsync();
   };
 
   const [theme, setTheme] = useState<Theme>({ mode: "light", system: false });

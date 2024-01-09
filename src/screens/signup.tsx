@@ -11,7 +11,6 @@ import {
   MsgBox,
   PageLogo,
   PageTitle,
-  StyledButton,
   SubTitle,
   TextLink,
   TextLinkContent,
@@ -23,7 +22,6 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
 } from "react-native";
 import KeyboardWrapper from "../components/keyboardWrapper";
 import { useTheme } from "../../contexts/themeContext";
@@ -34,6 +32,7 @@ import CustomInput from "../components/CustomInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { setFormErrors } from "../../contexts/authContext";
 import CustomButton from "../components/CustomButton";
+import { getLocales } from "expo-localization";
 
 interface SignUpProps {
   navigation?: any;
@@ -53,8 +52,6 @@ const SignUp = (props: SignUpProps) => {
   let activeColors = Colors[theme.mode];
 
   const { t } = useTranslation();
-
-  const [hidePassword, setHidePassword] = useState(true);
 
   const [date, setDate] = useState(new Date(2001, 3, 6));
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -98,9 +95,15 @@ const SignUp = (props: SignUpProps) => {
 
   const signup: SubmitHandler<FieldValues> = async (data) => {
     const url = `${BASE_URL}/signup/`;
+    const deviceLanguage = getLocales()[0].languageCode;
+    setLoading(true);
     await axios
-      .post(url, data)
+      .post(url, data, {
+        headers: {
+          'Accept-Language': deviceLanguage,
+        }})
       .then((res) => {
+        setLoading(false);
         let userInfo = res.data.data;
         setUserInfo(userInfo);
 
@@ -108,8 +111,6 @@ const SignUp = (props: SignUpProps) => {
         if (status == "SUCCESS") {
           props.navigation.navigate("Login");
           Alert.alert(message);
-        } else {
-          setLoading(false);
         }
       })
       .catch((e) => {
@@ -154,7 +155,7 @@ const SignUp = (props: SignUpProps) => {
             name="full_name"
             placeholder={t("full_name")}
             control={control}
-            rules={{ required: "Full Name is required" }}
+            rules={{ required: `${t("full_name")} ${t("is_required")}`}}
           />
 
           <CustomInput
@@ -162,7 +163,7 @@ const SignUp = (props: SignUpProps) => {
             name="username"
             placeholder={t("username")}
             control={control}
-            rules={{ required: "Username is required" }}
+            rules={{ required: `${t("username")} ${t("is_required")}`}}
           />
 
           <CustomInput
@@ -179,20 +180,20 @@ const SignUp = (props: SignUpProps) => {
             placeholder={t("phone_number")}
             control={control}
             keyboardType="phone-pad"
-            rules={{ required: "Phone Number is required" }}
+            rules={{ required: `${t("phone_number")} ${t("is_required")}`}}
           />
 
           <CustomInput
             icon="lock"
             name="password"
-            placeholder="Password"
+            placeholder={t("password")}
             initialSecureTextEntry
             control={control}
             rules={{
-              required: "Password is required",
+              required: `${t("password")} ${t("is_required")}` ,
               minLength: {
                 value: 3,
-                message: "Password should be minimum 3 characters long",
+                message: `${t("password")} ${t("password_requirements")}`,
               },
             }}
           />
