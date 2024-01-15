@@ -26,8 +26,7 @@ const HomeScreen = ({navigation}: NavigationProps) => {
         </CategoriesProvider>
         <PackagesProvider>
           <Packages navigation={navigation}/>
-        </PackagesProvider>
-        
+        </PackagesProvider> 
       </View>
       
     </MainContainer>

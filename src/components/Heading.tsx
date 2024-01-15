@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     heading: {
       fontSize: 18,
       fontFamily: 'outfit-medium',
-      marginBottom: 10,
+      // marginBottom: 10,
       color: Colors.brand,
     },
   });

@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useTheme } from '../../../contexts/themeContext'
 import { Colors } from '../styles';
@@ -8,12 +8,16 @@ interface VerticalCardProps {
     heading: string,
     description: string,
     icon?: any
+    navigation?: any
+    packageDetail?: any
 }
-export default function VerticalCard({heading, description, icon}: VerticalCardProps) {
+export default function VerticalCard({heading, description, icon, navigation, packageDetail}: VerticalCardProps) {
     const { theme } = useTheme()
     let activeColors = Colors[theme.mode];
     return (
-        <View style={
+        <TouchableOpacity 
+            onPress={() => navigation.navigate("PackageDetails", {package: packageDetail})}
+            style={
             [styles.container, {backgroundColor: activeColors.secondary,shadowColor: activeColors.primary}
         ]}>
             <Image style={styles.image} source={{uri:icon}} />
@@ -22,7 +26,7 @@ export default function VerticalCard({heading, description, icon}: VerticalCardP
                 <Text style={{color: activeColors.light, fontFamily: 'outfit'}}>{description}</Text>
             </View>
             
-        </View>
+        </TouchableOpacity>
     )
 }
 

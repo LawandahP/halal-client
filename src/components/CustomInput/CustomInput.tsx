@@ -26,6 +26,7 @@ const CustomInput = ({
   placeholder,
   initialSecureTextEntry,
 }: CustomInputProps) => {
+  
   const { theme } = useTheme()
   let activeColors = Colors[theme.mode];
 

@@ -1,12 +1,16 @@
 import { ActivityIndicator, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
 import React, { useEffect } from 'react'
-import { PackagesProvider, usePackages } from '../../../contexts/packageContext'
+import { usePackages } from '../../../contexts/packageContext'
 import { Colors } from '../../components/styles'
 import VerticalCard from '../../components/Cards/verticalCard'
 import { useTheme } from '../../../contexts/themeContext'
 import CustomSwitch from './CustomSwitch'
 
-export default function AllPackages() {
+
+interface Props {
+  navigation?: any;
+}
+export default function AllPackages({navigation}: Props) {
   const { packages, getPackages, loading } = usePackages()
   const { theme } = useTheme()
   let activeColors = Colors[theme.mode]
@@ -39,8 +43,10 @@ export default function AllPackages() {
             <ActivityIndicator size="large" color={Colors.brand} />
           ) : (
             <>
-              {packages?.map((item) => (
+              {packages?.map((item: any) => (
                 <VerticalCard 
+                    packageDetail={item}
+                    navigation={navigation}
                     key={item?.id}
                     heading={item?.name}
                     description={item?.description}

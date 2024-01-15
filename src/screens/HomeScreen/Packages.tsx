@@ -12,13 +12,13 @@ interface Props {
 }
 
 export default function Packages({navigation}: Props) {
-    const { getPackages, packages, loading } = usePackages();
+  const { getPackages, packages, loading } = usePackages();
     // const { theme } = useTheme()
     // let activeColors = Colors[theme.mode]
-    useEffect(() => {
-      console.log("loading", loading)
-      getPackages("", "") 
-    }, [])
+  useEffect(() => {
+    console.log("loading", loading)
+    getPackages("", "") 
+  }, [])
 
   return (
     <View style={{marginTop: 20}}>
@@ -27,8 +27,10 @@ export default function Packages({navigation}: Props) {
           <ActivityIndicator size="large" color={Colors.brand} />
         ) :
         <SafeAreaView>
-          {packages.map((item) => (
+          {packages.map((item: any) => (
               <VerticalCard 
+                  packageDetail={item}
+                  navigation={navigation}
                   key={item?.id}
                   heading={item?.name}
                   description={item?.description}

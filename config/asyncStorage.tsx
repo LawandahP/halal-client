@@ -22,4 +22,4 @@ export const getData = async (key: string) => {
 
 
 // export const BASE_URL = "http://192.168.0.105:8000/api/v1"
-export const BASE_URL = "http://192.168.0.17:8000/api/v1"
+export const BASE_URL = "http://10.17.1.115:8000/api/v1"

@@ -1,5 +1,5 @@
-import { ActivityIndicator, SafeAreaView, StyleSheet, ScrollView, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { ActivityIndicator, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
+import React, { useEffect } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { PackagesProvider, usePackages } from '../../../contexts/packageContext'
 import { Colors } from '../../components/styles'
@@ -7,26 +7,28 @@ import VerticalCard from '../../components/Cards/verticalCard'
 import { useTheme } from '../../../contexts/themeContext'
 import CustomSwitch from './CustomSwitch'
 
-export default function ListPackages() {
-  const param = useRoute().params
+interface Props {
+  navigation?: any;
+}
+export default function ListPackages({navigation}: Props) {
+  const route = useRoute()
+  const id = typeof route.params === 'object' && 'id' in route.params ? route.params.id : undefined;
+
   const { packages, getPackages, loading } = usePackages()
   const { theme } = useTheme()
   let activeColors = Colors[theme.mode]
 
   // function for filter
-  // const [ tab, setTab ] = useState(1)
-
   const onSelectSwitch = (value: number) => {
-    // setTab(value)
     console.log("Tab", value)
-    getPackages(param?.id, value == 1 ? "Hourly Services" : value == 2 ? "Monthly Services" : "Hourly Services")
+    getPackages(id, value == 1 ? "Hourly Services" : value == 2 ? "Monthly Services" : "Hourly Services")
   }
 
   useEffect(() => {
-    getPackages(param?.id, "Hourly Services")
+    getPackages(id, "Hourly Services")
     console.log("Loading", loading)
     console.log("Packages", packages)
-    console.log("Param", param?.id)
+    console.log("Param", id)
   }, []);
   
   return (
@@ -43,9 +45,11 @@ export default function ListPackages() {
             <ActivityIndicator size="large" color={Colors.brand} />
           ) : (
             <>
-              {packages?.map((item) => (
+              {packages?.map((item: any) => (
                 <PackagesProvider>
                   <VerticalCard 
+                      packageDetail={item}
+                      navigation={navigation}
                       key={item?.id}
                       heading={item?.name}
                       description={item?.description}
