@@ -64,6 +64,7 @@ const AppStack = () => {
                                 size={20} style={{color: activeColors.light}} />
                         ),
                         headerTitle: '',
+                        headerShown: false 
                         
                     }} 
                 />

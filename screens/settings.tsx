@@ -77,7 +77,7 @@ const Settings = (props: SettingProps) => {
         <SettingsSection>
             <SettingsItem label={t('name')}>
                 <StyledText>
-                    {userInfo.full_name}
+                    {userInfo?.full_name}
                 </StyledText>
             </SettingsItem>
 

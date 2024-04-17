@@ -85,9 +85,9 @@ export const AuthProvider = (props:AuthProps) => {
     const login = async (credentials: any, setSubmitting: (value: boolean) => void) => {
         handleMessage("")
         setIsLoading(true)
-        const url = `https://lebron.iamgusto.com/api/v1/login/`
+        const url = `${BASE_URL}/login/`
         await axios.post(url, credentials).then(res => {
-            let userInfo = res.data
+            let userInfo = res.data.data
             setUserInfo(userInfo)
             storedData('userInfo', userInfo.user)
 
@@ -104,7 +104,7 @@ export const AuthProvider = (props:AuthProps) => {
             console.log(res.data)
         }).catch(e => {
             console.log(`error ${e}`)
-            setMessage(`${e}.error`)
+            setMessage(`${e}`)
             setSubmitting(false)
             setErrors(e.response.data.detail)
 

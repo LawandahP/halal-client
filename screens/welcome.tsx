@@ -4,14 +4,18 @@ import { Colors
 
 
 // import { StatusBar } from 'expo-status-bar'
-import { View, TouchableOpacity , Text, ImageBackground, TextInput, StyleSheet, StatusBar, Alert } from 'react-native'
+import { View, TouchableOpacity , Text, ImageBackground, StyleSheet, StatusBar, Alert } from 'react-native'
 import { Octicons } from '@expo/vector-icons';
 import MainContainer from '../components/mainContainer';
-import { ThemeContext, ThemeContextValue } from '../contexts/themeContext';
+import { useTheme } from '../contexts/themeContext';
 import { useTranslations } from '../contexts/localizationContext';
-import { getData } from '../config/asyncStorage';
 import { UserInfoInterface } from '../constants/interface';
 import { useAuth } from '../contexts/authContext';
+import TextInput from '../components/textInput';
+import TabSwitch from '../components/tabSwitch';
+import HourlyServices from '../tabs/hourlyServices';
+import MonthlyServices from '../tabs/monthlyServices';
+
 
 interface HomeProps {
     navigation?: any,
@@ -20,12 +24,16 @@ interface HomeProps {
 const Welcome = (props: HomeProps) => {
     const { t } = useTranslations();
 
-    // const [ userInfo, setUserInfo] = useState<UserInfoInterface>()
-
-    const { theme } = useContext<ThemeContextValue>(ThemeContext)
+    const { theme } = useTheme()
     let activeColors = Colors[theme.mode];
 
     const { userInfo, getUserInfo } = useAuth()
+
+    const [hourlyTab, setHourlyTab] = useState<number>(1);
+    
+    const onSelectSwitch = (value: number) => {
+        setHourlyTab(value)
+    }
 
     useEffect(() => {
         getUserInfo()
@@ -44,60 +52,43 @@ const Welcome = (props: HomeProps) => {
                         imageStyle={{borderRadius: 25, borderWidth: 1, borderColor: activeColors.brand}}
                     />
                 </TouchableOpacity>
-                
             </View>
 
-            <View style={styles.search}>
-                <Octicons 
-                    name='search'
-                    size={20}
-                    style={{marginRight: 15, marginTop: 5}}
-                    color={activeColors.brand} 
-                />
-                <TextInput 
-                    placeholder={t('search')}
-                    placeholderTextColor={activeColors.darkLight}
-                    style={{fontSize: 16, color: activeColors.light}} 
+            <TextInput 
+                placeholder={t('search')}
+                icon='search'
+                placeholderTextColor={activeColors.darkLight}
+                style={{fontSize: 16, color: activeColors.light}} 
+            />
+
+            <View>
+                <TabSwitch 
+                    option1="Hourly" option2="Monthly"
+                    selectionMode={1}
+                    onSelectSwitch={onSelectSwitch}
                 />
             </View>
-        </MainContainer>
+            
 
+            {hourlyTab == 1 && <HourlyServices />}
+            {/* {hourlyTab == 2 && <MonthlyServices />} */}
 
-        // <StatusBar style="light" />
-        // <InnerContainer>   
-        //     <WelcomeImage resizeMode="cover" source={require('./../assets/images/cleaning1.jpg')} />
-        //     <WelcomeContainer>
-        //         <PageTitle welcome={true}>Welcome Back Githaiga!</PageTitle>
-                
-        //         <FormArea>
-        //             <Avatar resizeMode="cover" source={require('./../assets/images/image1.jpg')} />
-        //             <Line />
-        //             <StyledButton onPress={handleSubmit}>
-        //                 <BtnText>Logout</BtnText>
-        //             </StyledButton>
-        //         </FormArea>    
-        //     </WelcomeContainer>
-        // </InnerContainer>
-        // 
-  )
+        </MainContainer>        
+    )
 }
 
 const styles = StyleSheet.create({
-    search: {
-        flex: 1,
-        flexDirection: 'row',
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 8,
-        paddingHorizontal: 10,
-        paddingVertical: 10
-    },
-    
     welcome: {
         flexDirection:'row', 
         justifyContent: 'space-between', 
         alignContent: 'center', 
-        marginBottom: 20
+        // marginBottom: 
+    },
+    wrapper: {
+        marginVertical: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }
 })
 

@@ -127,7 +127,7 @@ const SignUp = (props: SignUpProps) => {
                                     onChangeText={handleChange('full_name')}
                                     onBlur={handleBlur('full_name')}
                                     value={values.full_name}
-                                    error={errors.full_name}
+                                    error={errors?.full_name}
                                 />
 
                                 <TextInput  
@@ -138,7 +138,7 @@ const SignUp = (props: SignUpProps) => {
                                     onChangeText={handleChange('username')}
                                     onBlur={handleBlur('username')}
                                     value={values.username}
-                                    error={errors.username}
+                                    error={errors?.username}
                                 />
                                 
 
@@ -151,7 +151,7 @@ const SignUp = (props: SignUpProps) => {
                                     onBlur={handleBlur('email')}
                                     value={values.email}
                                     keyboardType='email-address'
-                                    error={errors.email}
+                                    error={errors?.email}
                                 />
                                
 
@@ -163,7 +163,7 @@ const SignUp = (props: SignUpProps) => {
                                     onBlur={handleBlur('phone_number')}
                                     value={values.phone_number}
                                     keyboardType='phone-pad'
-                                    error={errors.phone_number}
+                                    error={errors?.phone_number}
                                 />
                                
                             {/* <TouchableOpacity style={{flex: 1}} onPress={showDatePicker}>
@@ -190,7 +190,7 @@ const SignUp = (props: SignUpProps) => {
                                     setHidePassword={setHidePassword}
                                     secureTextEntry={hidePassword}
                                     hidePassword={hidePassword}
-                                    error={errors.password}
+                                    error={errors?.password}
                                 />
 
                                 {/* <TextInput 
